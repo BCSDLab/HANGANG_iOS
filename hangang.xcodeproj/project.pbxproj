@@ -15,6 +15,7 @@
 		A07E4FCE2585D22C00F25600 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A07E4FCC2585D22C00F25600 /* LaunchScreen.storyboard */; };
 		A07E4FD92585D22C00F25600 /* hangangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07E4FD82585D22C00F25600 /* hangangTests.swift */; };
 		A07E4FE42585D22C00F25600 /* hangangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07E4FE32585D22C00F25600 /* hangangUITests.swift */; };
+		A07E501F2585E6C900F25600 /* NanumSquareRoundOTFEB.otf in Resources */ = {isa = PBXBuildFile; fileRef = A07E501E2585E6C900F25600 /* NanumSquareRoundOTFEB.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		A07E4FDF2585D22C00F25600 /* hangangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hangangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A07E4FE32585D22C00F25600 /* hangangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hangangUITests.swift; sourceTree = "<group>"; };
 		A07E4FE52585D22C00F25600 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A07E501E2585E6C900F25600 /* NanumSquareRoundOTFEB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundOTFEB.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		A07E4FC02585D22B00F25600 /* hangang */ = {
 			isa = PBXGroup;
 			children = (
+				A07E50072585E48A00F25600 /* fonts */,
 				A07E4FC12585D22B00F25600 /* AppDelegate.swift */,
 				A07E4FC32585D22B00F25600 /* SceneDelegate.swift */,
 				A07E4FC52585D22B00F25600 /* ViewController.swift */,
@@ -126,6 +129,14 @@
 				A07E4FE52585D22C00F25600 /* Info.plist */,
 			);
 			path = hangangUITests;
+			sourceTree = "<group>";
+		};
+		A07E50072585E48A00F25600 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A07E501E2585E6C900F25600 /* NanumSquareRoundOTFEB.otf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A07E501F2585E6C900F25600 /* NanumSquareRoundOTFEB.otf in Resources */,
 				A07E4FCE2585D22C00F25600 /* LaunchScreen.storyboard in Resources */,
 				A07E4FCB2585D22C00F25600 /* Assets.xcassets in Resources */,
 				A07E4FC92585D22B00F25600 /* Main.storyboard in Resources */,
@@ -439,6 +451,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K626UYGR25;
 				INFOPLIST_FILE = hangang/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -458,6 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K626UYGR25;
 				INFOPLIST_FILE = hangang/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
