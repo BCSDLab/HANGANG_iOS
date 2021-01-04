@@ -1,2 +1,0 @@
-# HANGANG_iOS
-HANGANG_iOS

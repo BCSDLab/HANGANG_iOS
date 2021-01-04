@@ -1,0 +1,6 @@
+framework module Pods_hangang__iOS_ {
+  umbrella header "Pods-hangang (iOS)-umbrella.h"
+
+  export *
+  module * { export * }
+}
