@@ -7,6 +7,8 @@
 
 import Foundation
 import CommonCrypto
+import SwiftUI
+import UIKit
 
 func sha256(str: String) -> String {
  
@@ -34,6 +36,28 @@ func sha256(str: String) -> String {
         return sha256String
     }
     return ""
+}
+
+extension UIColor {
+    func as1ptImage() -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        let ctx = UIGraphicsGetCurrentContext()!
+        self.setFill()
+        ctx.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
+    
+    func as1ptImageWithPercent(percent: Double) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
+        self.setFill()
+        UIRectFill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
 }
 
 extension String {
