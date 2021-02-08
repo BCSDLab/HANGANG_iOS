@@ -9,17 +9,17 @@ import SwiftUI
 
 @main
 struct hangangApp: App {
-    
-    
-    @ObservedObject var authenticationViewModel: AuthenticationViewModel
-    
-    init() {
-        authenticationViewModel = AuthenticationViewModel()
-    }
+    @StateObject var authenticationViewModel = AuthenticationViewModel()
     
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if(authenticationViewModel.result == "OK") {
+                ContentView().environmentObject(authenticationViewModel)
+            } else if(authenticationViewModel.isLoading) {
+                ProgressView()
+            } else {
+                LoginView().environmentObject(authenticationViewModel)
+            }
         }
     }
 }
