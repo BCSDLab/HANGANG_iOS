@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct LoginView: View {
-    /*@ObservedObject var viewModel: LoginViewModel = LoginViewModel(userFetcher: UserFetcher())*/
-    @State var email: String = ""
-    @State var password: String = ""
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
+    @ObservedObject var viewModel: LoginViewModel = LoginViewModel()
+
         var body: some View {
-            return NavigationView {
+            NavigationView {
                 VStack {
                     Spacer()
                     VStack {
                         VStack{
                             HStack {
-                                TextField("KOREATECH 이메일", text: $email)
+                                TextField("KOREATECH 이메일", text: self.$viewModel.email)
+                                    .autocapitalization(.none)
                                     .font(.system(size: 14, weight: .medium))
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                                     
@@ -30,7 +32,8 @@ struct LoginView: View {
                             Divider()
                             
                             
-                            SecureField("비밀번호", text: $password)
+                            SecureField("비밀번호", text: self.$viewModel.password)
+                                .autocapitalization(.none)
                                 .font(.system(size: 14, weight: .medium))
                                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                             
@@ -39,7 +42,7 @@ struct LoginView: View {
                         
                         // 로그인 버튼을 누르면
                         Button(action: {
-                            //self.viewModel.login()
+                            self.viewModel.login()
                         }) {
                             HStack{
                                 Spacer()
@@ -54,6 +57,13 @@ struct LoginView: View {
                         .background(Color("PrimaryBlue"))
                         .cornerRadius(24.0)
                         .padding(.top, 28)
+                        .onReceive(self.viewModel.tokenChange) { token in
+                            print(token.access_token)
+                            UserDefaults.standard.set(token.access_token, forKey: "access_token")
+                            UserDefaults.standard.set(token.refresh_token, forKey: "refresh_token")
+                            authenticationViewModel.token = token
+                            /*authenticationViewModel.tokenTest(token: token)*/
+                        }
                     }.padding([.leading, .trailing], CGFloat(16))
                     
                     HStack{
