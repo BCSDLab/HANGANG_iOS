@@ -26,9 +26,9 @@ class EmailCheckHandler: APIHandler {
     
     func sendEmail(email: String)  {
         
-        let url = "http://hangang.in/user/email"
+        let url = "https://api.hangang.in/user/email"
         
-        let data = SendEmailRequest(portal_account: email + "@gmail.com")
+        let data = SendEmailRequest(portal_account: email + "@koreatech.ac.kr")
         
         AF.request(url,
                    method: .post,
@@ -47,9 +47,9 @@ class EmailCheckHandler: APIHandler {
     
     func checkEmail(email: String, secret: String) {
         
-        let url = "http://hangang.in/user/email/config"
+        let url = "https://api.hangang.in/user/email/config"
         
-        let data = CheckEmailRequest(secret: secret, portal_account: email + "@gmail.com")
+        let data = CheckEmailRequest(secret: secret, portal_account: email + "@koreatech.ac.kr")
         
         AF.request(url,
                    method: .post,

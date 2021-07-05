@@ -9,28 +9,21 @@ import Foundation
 import Combine
 import Alamofire
 
-struct SignUpRequest: Encodable {
-    let portal_account: String
-    let password: String
+
+struct CheckNicknameRequest: Encodable {
     let nickname: String
-    let major: [String]
 }
 
-class MajorHandler: APIHandler {
-    @Published var signUpResponse: HangangResponse = HangangResponse()
+class SignUpHandler: APIHandler {
+    @Published var nicknameCheckResponse: HangangResponse = HangangResponse()
     
-    func signUp(email: String, password: String, nickname: String, major: [String])  {
+    func checkNickname(nickname: String)  {
         
-        let url = "http://hangang.in/user/sign-up"
+        let url = "https://api.hangang.in/user/nickname-check"
         
-        let data = SignUpRequest(
-            portal_account: email + "@gmail.com",
-            password: sha256(str: password),
-            nickname: nickname,
-            major: major
+        let data = CheckNicknameRequest(
+            nickname: nickname
         )
-        
-        print(data)
         
         AF.request(url,
                    method: .post,
@@ -43,8 +36,9 @@ class MajorHandler: APIHandler {
                             return
                         }
                                         
-                        weakSelf.signUpResponse = response
+                        weakSelf.nicknameCheckResponse = response
         }
     }
+
     
 }

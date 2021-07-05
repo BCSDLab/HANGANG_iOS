@@ -16,12 +16,12 @@ struct TokenLoginRequest: Encodable {
 class AuthenticationHandler: APIHandler {
     @Published var tokenTestResponse: HangangResponse?
     @Published var isLoading = false
-
+    @Published var refreshTokenResponse: Token?
 
     func testToken(token: Token) {
         isLoading = true
 
-        let url = "https://hangang.in/user/auth-test"
+        let url = "https://api.hangang.in/user/auth-test"
 
 
         AF.request(url,
@@ -39,6 +39,30 @@ class AuthenticationHandler: APIHandler {
 
             weakSelf.isLoading = false
             weakSelf.tokenTestResponse = response
+        }
+    }
+    
+    func refreshToken(token: Token) {
+        isLoading = true
+
+        let url = "https://api.hangang.in/user/refresh"
+
+
+        AF.request(url,
+                method: .post,
+                headers: [
+                    HTTPHeader(name: "RefreshToken", value: "Bearer " + token.refresh_token)
+                ]
+        ).responseDecodable { [weak self] (response: DataResponse<Token, AFError>) in
+            guard let weakSelf = self else { return }
+
+            guard let response = weakSelf.handleResponse(response) as? Token else {
+                weakSelf.isLoading = false
+                return
+            }
+
+            weakSelf.isLoading = false
+            weakSelf.refreshTokenResponse = response
         }
     }
     

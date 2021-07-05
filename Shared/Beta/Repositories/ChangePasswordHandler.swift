@@ -1,31 +1,30 @@
 //
-//  EmailHandler.swift
+//  ChangePasswordHandler.swift
 //  hangang (iOS)
 //
-//  Created by 정태훈 on 2021/01/17.
+//  Created by 정태훈 on 2021/02/22.
 //
 
 import Foundation
 import Combine
 import Alamofire
 
-
-struct CheckNicknameRequest: Encodable {
-    let nickname: String
+struct ChangePasswordRequest: Encodable {
+    let portal_account: String
+    let password: String
 }
 
-class SignUpHandler: APIHandler {
-    @Published var nicknameCheckResponse: HangangResponse = HangangResponse()
+class ChangePasswordHandler: APIHandler {
+    @Published var changePasswordResponse: HangangResponse = HangangResponse()
     
-    func checkNickname(nickname: String)  {
+    func changePassword(email: String, password: String)  {
         
-        let url = "http://hangang.in/user/nickname-check"
+        let url = "https://api.hangang.in/user/password-find"
         
-        let data = CheckNicknameRequest(
-            nickname: nickname
+        let data = ChangePasswordRequest(
+            portal_account: email + "@koreatech.ac.kr",
+            password: sha256(str: password)
         )
-        
-        print(data)
         
         AF.request(url,
                    method: .post,
@@ -38,9 +37,8 @@ class SignUpHandler: APIHandler {
                             return
                         }
                                         
-                        weakSelf.nicknameCheckResponse = response
+                        weakSelf.changePasswordResponse = response
         }
     }
-
     
 }

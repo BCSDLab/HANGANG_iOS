@@ -21,16 +21,14 @@ class LoginHandler: APIHandler {
     
     func login(email: String, password: String)  {
         self.isLoading = true
-        let url = "http://hangang.in/user/login"
+        let url = "https://api.hangang.in/user/login"
 
         print(sha256(str: password));
         
         let data = LoginRequest(
-            portal_account: email + "@gmail.com",
+            portal_account: email + "@koreatech.ac.kr",
             password: sha256(str: password)
         )
-        
-        print(data)
         
         AF.request(url,
                    method: .post,
