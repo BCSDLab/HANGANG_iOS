@@ -75,6 +75,39 @@ extension String {
         }
     }
     
+    var stringToDate:Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter.date(from: self)!
+    }
+}
+
+extension Int {
+    var semesterToString: String {
+        return "\(2019 + (self / 2))년 \(((self - 1) % 2) + 1)학기"
+    }
+}
+
+extension Date {
+    var getmdhm: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd HH:mm"
+        
+        return dateFormatter.string(from: self)
+    }
+    var getymd: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        
+        return dateFormatter.string(from: self)
+    }
+    func timeAgoDisplay() -> String {
+            let formatter = RelativeDateTimeFormatter()
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.unitsStyle = .full
+            return formatter.localizedString(for: self, relativeTo: Date())
+        }
 }
 
 func checkRegex(target: String, pattern: String) -> Bool {
@@ -96,4 +129,77 @@ func checkRegex(target: String, pattern: String) -> Bool {
         return false
     }
     return false
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+    
+    func fontWithLineHeight(font: UIFont, lineHeight: CGFloat) -> some View {
+        ModifiedContent(content: self, modifier: FontWithLineHeight(font: font, lineHeight: lineHeight))
+    }
+}
+
+
+struct SelectableButtonStyle: ButtonStyle {
+
+    var isSelected: Bool = false
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .frame(width: 64.0, height: 32.0, alignment: .center)
+            //.padding(EdgeInsets(top: 6, leading: 0, bottom: 5, trailing: 0))
+            .background(isSelected ? Color("PrimaryBlue") : Color("BorderColor"))
+            .cornerRadius(20.0)
+            /*.overlay(RoundedRectangle(cornerRadius: 20.0).foregroundColor(isSelected ? Color("PrimaryBlue") : Color("DisableColor")))*/
+            .animation(.easeInOut)
+    }
+}
+
+struct StatedButton<Label>: View where Label: View {
+    private let action: (() -> ())?
+    private let label: (() -> Label)?
+    var isSelected: Bool = false
+    @State var buttonStyle = SelectableButtonStyle()
+
+    init(action: (() -> ())? = nil, isSelected: Bool, label: (() -> Label)? = nil) {
+        self.action = action
+        self.isSelected = isSelected
+        self.label = label
+    }
+
+    var body: some View {
+        Button(action: {
+            self.buttonStyle.isSelected = isSelected
+            self.action?()
+        }) {
+            label?()
+        }
+        .buttonStyle(buttonStyle)
+    }
+}
+
+
+struct FontWithLineHeight: ViewModifier {
+    let font: UIFont
+    let lineHeight: CGFloat
+
+    func body(content: Content) -> some View {
+        content
+            .font(Font(font))
+            .lineSpacing(lineHeight - font.lineHeight)
+            .padding(.vertical, (lineHeight - font.lineHeight) / 2)
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
 }
