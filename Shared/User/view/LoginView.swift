@@ -10,6 +10,7 @@ import LocalAuthentication
 
 struct LoginView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @State var isActive : Bool = false
     
     @ObservedObject var viewModel: LoginViewModel = LoginViewModel()
 
@@ -48,21 +49,17 @@ struct LoginView: View {
                                 Spacer()
                                 Text("로그인")
                                     .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color.white)
-                                    .padding(.vertical, 10)
+                                    .foregroundColor(Color.white).padding(.vertical, 10)
                                 Spacer()
                             }
+                                .background(Color("PrimaryBlue"))
+                                .cornerRadius(24.0)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .background(Color("PrimaryBlue"))
-                        .cornerRadius(24.0)
+                        
                         .padding(.top, 28)
                         .onReceive(self.viewModel.tokenChange) { token in
-                            print(token.access_token)
-                            UserDefaults.standard.set(token.access_token, forKey: "access_token")
-                            UserDefaults.standard.set(token.refresh_token, forKey: "refresh_token")
                             authenticationViewModel.token = token
-                            /*authenticationViewModel.tokenTest(token: token)*/
                         }
                     }.padding([.leading, .trailing], CGFloat(16))
                     
@@ -70,9 +67,7 @@ struct LoginView: View {
                         Text("비밀번호를 잊어버리셨나요? ")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color("DisableColor"))
-                        Button(action: {
-                            
-                        }) {
+                        NavigationLink(destination: FindPasswordView()) {
                             Text("비밀번호 찾기")
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundColor(Color("PrimaryBlack"))
@@ -83,11 +78,14 @@ struct LoginView: View {
                         Text("아직 계정이 없으신가요? ")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color("DisableColor"))
-                        NavigationLink(destination: TermsView()) {
+                        NavigationLink(destination: TermsView(
+                                        rootIsActive: self.$isActive
+                        ),
+                                       isActive: self.$isActive) {
                             Text("회원가입")
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundColor(Color("PrimaryBlack"))
-                        }
+                        }.isDetailLink(false)
                     }.padding(.bottom, 40)
                 }
                 .navigationTitle("")

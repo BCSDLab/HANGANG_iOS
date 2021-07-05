@@ -21,23 +21,37 @@ struct ContentView: View {
               VStack(spacing: 0){
                   
                   GeometryReader{_ in
+                    /*
+                     HomeView()
+                     .opacity(selectedTab == "Home" ? 1 : 0)
+                 
+                 ReviewView()
+                     .opacity(selectedTab == "ClipboardCheck" ? 1 : 0)
+                 
+                 LectureBankView()
+                     .opacity(selectedTab == "DocumentText" ? 1 : 0)
+                 
+               TimeTableView()
+                     .opacity(selectedTab == "Template" ? 1 : 0)
+               
+               MyView(token: self.authenticationViewModel.token)
+                   .opacity(selectedTab == "User" ? 1 : 0)
+                     */
                       
-                      ZStack{
-                              HomeView()
-                              .opacity(selectedTab == "Home" ? 1 : 0)
-                          
-                          ReviewView()
-                              .opacity(selectedTab == "ClipboardCheck" ? 1 : 0)
-                          
-                          Text("LectureBank")
-                              .opacity(selectedTab == "DocumentText" ? 1 : 0)
-                          
-                          Text("Timetable")
-                              .opacity(selectedTab == "Template" ? 1 : 0)
-                        
-                        MyView()
-                            .opacity(selectedTab == "User" ? 1 : 0)
-                      }
+                    switch(selectedTab) {
+                    case "Home":
+                        HomeView()
+                    case "ClipboardCheck":
+                        ReviewView()
+                    case "DocumentText":
+                        LectureBankView()
+                    case "Template":
+                        TimeTableView()
+                    case "User":
+                        MyView(token: self.authenticationViewModel.token)
+                    default:
+                        EmptyView()
+                    }
                   }
                   // TabView...
                   
@@ -54,6 +68,7 @@ struct ContentView: View {
                   .padding(.bottom,(edges?.bottom ?? 0) == 0 ? 15 : (edges?.bottom ?? 0))
                   .background(Color.white)
               }
+              
               .ignoresSafeArea(.all, edges: .bottom)
               .background(Color.black.opacity(0.06).ignoresSafeArea(.all, edges: .all))
           }

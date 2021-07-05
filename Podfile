@@ -7,6 +7,10 @@ target 'hangang (iOS)' do
 
   # Pods for hangang (iOS)
   pod 'Alamofire', '~> 5.2'
+  pod 'SwiftyJSON', '~> 4.0'
+  pod 'ElliotableSwiftUI'
+  pod 'BottomSheet', :git => 'https://github.com/weitieda/bottom-sheet.git'
+  
 end
 
 target 'hangang (macOS)' do

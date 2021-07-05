@@ -23,18 +23,14 @@ class EmailCheckViewModel: ObservableObject, Identifiable {
     private var isEmailSendPublisher: AnyPublisher<HangangResponse, Never> {
         emailHandler.$emailSendResponse
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
-            .print()
             .eraseToAnyPublisher()
         }
     
     private var isEmailCheckPublisher: AnyPublisher<HangangResponse, Never> {
         emailHandler.$emailCheckResponse
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
-            .print()
             .eraseToAnyPublisher()
         }
     

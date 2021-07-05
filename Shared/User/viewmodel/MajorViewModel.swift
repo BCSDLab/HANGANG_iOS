@@ -33,9 +33,7 @@ class MajorViewModel: ObservableObject, Identifiable {
     private var isSignUpPublisher: AnyPublisher<HangangResponse, Never> {
         majorHandler.$signUpResponse
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
-            .print()
             .eraseToAnyPublisher()
         }
     

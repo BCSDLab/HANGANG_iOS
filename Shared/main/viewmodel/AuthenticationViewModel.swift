@@ -13,11 +13,19 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
     @Published var isLoading: Bool = true
     @Published var token: Token = Token() {
         didSet {
-            print(token.access_token)
-            tokenTest(token: token)
+            if(token.access_token != "") {
+                tokenTest(token: token)
+            }
         }
     }
-    @Published var result: String = ""
+    @Published var result: String = "" {
+        didSet {
+            /*if(result == "UNAUTHORIZED") {
+                refreshToken(token: self.token)
+            }*/
+        }
+    }
+    @Published var user: User? = nil
 
     var authenticationHandler: AuthenticationHandler = AuthenticationHandler()
 
@@ -35,6 +43,13 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
 
                     return response.httpStatus ?? ""
                 }
+                .eraseToAnyPublisher()
+    }
+    
+    private var refreshTokenPublisher: AnyPublisher<Token, Never> {
+        authenticationHandler.$refreshTokenResponse
+                .receive(on: RunLoop.main)
+                .map { $0 ?? Token()}
                 .eraseToAnyPublisher()
     }
 
@@ -56,9 +71,16 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
                 .receive(on: RunLoop.main)
                 .assign(to: \.result, on: self)
                 .store(in: &disposables)
+        
+        refreshTokenPublisher
+                .receive(on: RunLoop.main)
+                .assign(to: \.token, on: self)
+                .store(in: &disposables)
 
         let accessToken = UserDefaults.standard.string(forKey: "access_token")
+        print("accessToken: \(accessToken)")
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+        print("refreshToken: \(refreshToken)")
         token = Token(
                 refresh_token: refreshToken ?? "",
                 access_token: accessToken ?? ""
@@ -72,6 +94,32 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
 
     func tokenTest(token: Token) {
         authenticationHandler.testToken(token: token)
+    }
+    
+    /*func refreshToken(token: Token) {
+        authenticationHandler.refreshToken(token: token)
+    }*/
+    
+    func logout() {
+        self.result = ""
+        self.token = Token()
+        deleteToken()
+    }
+    
+    func saveToken() {
+        print("SaveToken")
+        print(self.token.access_token)
+        print(self.token.refresh_token)
+        UserDefaults.standard.set(self.token.access_token, forKey: "access_token")
+        UserDefaults.standard.set(self.token.refresh_token, forKey: "refresh_token")
+    }
+    
+    
+    
+    func deleteToken() {
+        print("DeleteToken")
+        UserDefaults.standard.removeObject(forKey: "access_token")
+        UserDefaults.standard.removeObject(forKey: "refresh_token")
     }
 
 }

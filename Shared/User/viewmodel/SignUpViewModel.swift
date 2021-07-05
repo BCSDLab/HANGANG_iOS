@@ -49,9 +49,7 @@ class SignUpViewModel: ObservableObject, Identifiable {
     private var checkNicknamePublisher: AnyPublisher<HangangResponse, Never> {
         signUpHandler.$nicknameCheckResponse
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
-            .print()
             .eraseToAnyPublisher()
         }
     
