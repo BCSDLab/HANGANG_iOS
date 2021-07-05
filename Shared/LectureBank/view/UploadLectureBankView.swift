@@ -115,29 +115,33 @@ struct UploadLectureBankView: View {
                             .background(Color("BorderColor"))
                     }
                     Group {
-                        ZStack {
-                            VStack(alignment:.leading, spacing: 0) {
-                                Text("자료에 대한 설명을 작성해주세요. (저작권법 제133조에")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color("DisableColor"))
-                                    .frame(height: 16)
-                                Text("따라 타인 또는 유포금지 자료를 업로드할 경우, 저작권에")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color("DisableColor"))
-                                    .frame(height: 16)
-                                Text("위배되어 경고 없이 삭제될 수 있습니다.)")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color("DisableColor"))
-                                    .frame(height: 16)
-                                Text("")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color("DisableColor"))
-                                    .frame(height: 16)
-                                Text("강의평 작성이 완료될 시, 수정이나 삭제가 불가합니다.")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color("DisableColor"))
-                                    .frame(height: 16)
+                        ZStack(alignment: .topLeading){
+                            HStack{
+                                VStack(alignment:.leading, spacing: 0) {
+                                    Text("자료에 대한 설명을 작성해주세요. (저작권법 제133조에")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(Color("DisableColor"))
+                                            .frame(height: 16)
+                                    Text("따라 타인 또는 유포금지 자료를 업로드할 경우, 저작권에")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(Color("DisableColor"))
+                                            .frame(height: 16)
+                                    Text("위배되어 경고 없이 삭제될 수 있습니다.)")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(Color("DisableColor"))
+                                            .frame(height: 16)
+                                    Text("")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(Color("DisableColor"))
+                                            .frame(height: 16)
+                                    Text("강의평 작성이 완료될 시, 수정이나 삭제가 불가합니다.")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(Color("DisableColor"))
+                                            .frame(height: 16)
+                                    Spacer()
+                                }
+                                Spacer()
                             }.padding(16)
                             .opacity(self.viewModel.content.isEmpty ? 1.0 : 0.0)
                             
@@ -146,7 +150,7 @@ struct UploadLectureBankView: View {
                                 .padding(.vertical,8)
                                 .font(.system(size: 14))
                                 .background(Color.clear)
-                        }
+                        }.frame(height: 233)
                         Divider()
                             .background(Color("BorderColor"))
                     }

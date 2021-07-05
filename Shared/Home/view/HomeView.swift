@@ -130,12 +130,12 @@ struct HomeView: View {
                             }.padding(.horizontal, 16)
                         }
 
-                        Text("내 시간표")
+                        /*Text("내 시간표")
                                 .fontWeight(.medium)
                                 .font(.system(size: 16))
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .padding(EdgeInsets(top: 16, leading: 16, bottom: 10, trailing: 16))
-                                .frame(width: geometry.size.width, alignment: .leading)
+                                .frame(width: geometry.size.width, alignment: .leading)*/
                     }
                 }.frame(width: geometry.size.width, alignment: .leading)
                         .navigationBarTitleDisplayMode(.inline)
