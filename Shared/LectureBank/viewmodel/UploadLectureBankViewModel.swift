@@ -16,35 +16,43 @@ class UploadLectureBankViewModel: ObservableObject, Identifiable {
     @Published var semesters: [Int] = [1,2,3,4,5,6]
     @Published var assignment: String = "기출자료"
     @Published var content: String = ""
-    @Published var files: [URL] = []
-    @Published var fileDescriptor: [[FileAttributeKey : Any]] = []
+    @Published var files: [FileBank] = []
     @Published var images: [UIImage] = []
-    
+    /*@Published var uploadedFile: [[String: Any]] = [] {
+        didSet {
+
+        }
+    }*/
+
+    var uploadFileHandler: UploadFileHandler = UploadFileHandler()
     
     private var disposables: Set<AnyCancellable> = []
 
+    private var uploadFilePublisher: AnyPublisher<String?, Never> {
+        uploadFileHandler.$uploadFileResponse
+                .receive(on: RunLoop.main)
+                .map { $0 }
+                .eraseToAnyPublisher()
+    }
+
+    private var uploadImagePublisher: AnyPublisher<String?, Never> {
+        uploadFileHandler.$uploadImageResponse
+                .receive(on: RunLoop.main)
+                .map { $0 }
+                .eraseToAnyPublisher()
+    }
+
     
     init() {
-        
-        
-        
+
     }
-    
+
     
     func uploadFile(fileUrl: URL) {
-        
-        do {
-            
-        } catch (let error) {
-            print(error)
-        }
-        
-        //let file = Data(contentsOf: fileUrl, options: <Data.ReadingOptions>)
+        uploadFileHandler.uploadFile(fileUrl: fileUrl)
     }
     
     func uploadImage(image: UIImage) {
-        let imgData = image.jpegData(compressionQuality: 0.5)!
-        
-        
+        uploadFileHandler.uploadImage(image: image)
     }
 }

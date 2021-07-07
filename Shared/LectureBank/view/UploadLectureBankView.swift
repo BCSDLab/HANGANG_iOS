@@ -170,6 +170,31 @@ struct UploadLectureBankView: View {
                             Image("image")
                         }
                     }.padding(.horizontal, 16)
+
+
+                    ScrollView (.horizontal) {
+                        HStack {
+                            ForEach(self.viewModel.files, id: \.self) { (fileData: FileBank) in
+                                //let fileName = fileData.attributes[FileAttributeKey.name]
+
+
+                                //let size = fileData.attributes[FileAttributeKey.size] as! Int
+
+                                if(fileData.isFile) {
+                                    let fileName = fileData.url!.lastPathComponent
+                                    VStack {
+                                        Text("\(fileName)")
+                                        //Text("\(size)")
+                                    }
+                                } else {
+                                    Image(uiImage: fileData.image!)
+                                            .resizable()
+                                            .scaledToFit()
+                                        .frame(width: 100)
+                                }
+                            }
+                        }
+                    }
                     
                     Button(action: {
                         
@@ -205,10 +230,15 @@ struct UploadLectureBankView: View {
                 }
             }.sheet(isPresented: self.$showDocumentPicker) {
                 DocumentPicker(callback: { url in
-                    self.viewModel.files.append(url)
                     do {
                         let attr = try FileManager.default.attributesOfItem(atPath: url.path)
-                        self.viewModel.fileDescriptor.append(attr)
+                        let fileBank = FileBank(
+                                url: url,
+                                image: nil,
+                        attributes: attr,
+                        isFile: true
+                        )
+                        self.viewModel.files.append(fileBank)
                     } catch(let error) {
                         print(error)
                     }
@@ -218,7 +248,14 @@ struct UploadLectureBankView: View {
                 )
             }.sheet(isPresented: self.$showImagePicker) {
                 SUImagePicker(sourceType: .photoLibrary) { image in
-                    self.viewModel.images.append(image)
+                    let fileBank = FileBank(
+                            url: nil,
+                            image: image,
+                            attributes: nil,
+                            isFile: false
+                    )
+                    self.viewModel.files.append(fileBank)
+                    //self.viewModel.images.append(image)
                 }
             }.bottomSheet(isPresented: self.$showingSemesterActionSheet, height: geometry.size.height / 2) {
                 VStack{

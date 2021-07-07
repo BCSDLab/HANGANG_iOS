@@ -9,65 +9,57 @@ import UIKit
 import SwiftUI
 
 class UploadFileHandler: APIHandler {
-    /*@Published var lectureBankResponse: [LectureBank] = []
-    @Published var lectureBankCommentResponse: [Comment] = []*/
+    @Published var uploadFileResponse: String? = nil
+    @Published var uploadImageResponse: String? = nil
     
     func uploadFile(fileUrl: URL)  {
         do {
             let attr = try FileManager.default.attributesOfItem(atPath: fileUrl.path)
             let fileName = attr[FileAttributeKey.size]
             let type = attr[FileAttributeKey.type]
+
+            let url = "https://api.hangang.in/lecture-banks/files"
+
+            AF.upload(
+                multipartFormData: { (multipartFormData) in
+                    multipartFormData.append(fileUrl, withName: "files", fileName: "\(fileName)", mimeType: "\(type)")
+                    //return multipartFormData
+                },
+                    to: url
+            ).responseDecodable { [weak self] (response: DataResponse<[String], AFError>) in
+                guard let weakSelf = self else { return }
+                guard let response = weakSelf.handleResponse(response) as? [String] else {
+                    return
+                }
+                weakSelf.uploadFileResponse = response.first
+            }
         } catch (let error) {
             print(error)
         }
-        /*let url = "https://api.hangang.in/lecture-banks"
-        
-        let data = LectureBankRequest(
-            department: department,
-            page: 1
-        )
-        
-        
-        AF.request(url,
-                   method: .get,
-                   parameters: data,
-                   encoder: URLEncodedFormParameterEncoder.default
-        ).responseDecodable { [weak self] (response: DataResponse<CommonResponse<LectureBank>, AFError>) in
-            guard let weakSelf = self else { return }
-            guard let response = weakSelf.handleResponse(response) as? CommonResponse<LectureBank> else {
-                            return
-                        }
-            //weakSelf.lectureBankResponse = response
-            weakSelf.lectureBankResponse = (response.result ?? [])
-            //weakSelf.reviewCount = response.count
-        }*/
     }
     
     func uploadImage(image: UIImage)  {
         let imgData = image.jpegData(compressionQuality: 0.5)
-        
-        
-        /*let url = "https://api.hangang.in/lecture-banks"
-        
-        let data = LectureBankRequest(
-            department: department,
-            page: 1
-        )
-        
-        
-        AF.request(url,
-                   method: .get,
-                   parameters: data,
-                   encoder: URLEncodedFormParameterEncoder.default
-        ).responseDecodable { [weak self] (response: DataResponse<CommonResponse<LectureBank>, AFError>) in
-            guard let weakSelf = self else { return }
-            guard let response = weakSelf.handleResponse(response) as? CommonResponse<LectureBank> else {
-                            return
-                        }
-            //weakSelf.lectureBankResponse = response
-            weakSelf.lectureBankResponse = (response.result ?? [])
-            //weakSelf.reviewCount = response.count
-        }*/
+        do {
+
+            let url = "https://api.hangang.in/sample/s3/file"
+
+            AF.upload(
+                    multipartFormData: { (multipartFormData) in
+                        multipartFormData.append(imgData!, withName: "files")
+                        //return multipartFormData
+                    },
+                    to: url
+            ).responseDecodable { [weak self] (response: DataResponse<[String], AFError>) in
+                guard let weakSelf = self else { return }
+                guard let response = weakSelf.handleResponse(response) as? [String] else {
+                    return
+                }
+                weakSelf.uploadImageResponse = response.first
+            }
+        } catch (let error) {
+            print(error)
+        }
     }
     
 }
