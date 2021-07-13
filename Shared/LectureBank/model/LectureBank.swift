@@ -48,5 +48,47 @@ struct LectureBank: Codable, Hashable {
     static func == (lhs: LectureBank, rhs: LectureBank) -> Bool {
         return lhs.id == rhs.id
     }
+
+
     
+}
+
+struct ScrapLectureBank: Codable, Hashable {
+    let scrapId, id, userID, lectureID: Int
+    let category: [String]
+    let title, content: String
+    let pointPrice: Int
+    let semesterDate: String
+    let hits: Int
+    let scrapedAt, createdAt, updatedAt: String
+    let isDeleted, isHit: Bool
+    let thumbnail: String
+    let user: UserNickname
+    let lecture: Lecture
+
+    enum CodingKeys: String, CodingKey {
+        case scrapId = "scrap_id"
+        case id
+        case userID = "user_id"
+        case lectureID = "lecture_id"
+        case category, title, content
+        case pointPrice = "point_price"
+        case scrapedAt = "scraped_at"
+        case semesterDate = "semester_date"
+        case hits
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case isDeleted = "is_deleted"
+        case isHit = "is_hit"
+        case thumbnail, user, lecture
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(scrapId)
+    }
+
+    static func == (lhs: ScrapLectureBank, rhs: ScrapLectureBank) -> Bool {
+        return lhs.scrapId == rhs.scrapId
+    }
+
 }

@@ -8,7 +8,8 @@
 import Foundation
 
 struct LectureCount: Codable {
-    let getLectureBankCommentCount, lectureReview, getLectureBankCount: Int
+    //let getLectureBankCommentCount: Int?
+    let getLectureBankCommentCount, lectureReview, getLectureBankCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case getLectureBankCommentCount

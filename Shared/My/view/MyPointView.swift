@@ -11,7 +11,7 @@ struct MyPointView: View {
     @ObservedObject var viewModel: MyPointViewModel
     @State var point: Int
     
-    init(token: Token, point: Int) {
+    init(token: Token?, point: Int) {
         self.viewModel = MyPointViewModel(
         token: token
         )
@@ -131,11 +131,5 @@ struct MyPointView: View {
             nc.navigationBar.barTintColor = .white
             nc.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "PrimaryBlack")]
         })
-    }
-}
-
-struct MyPointView_Previews: PreviewProvider {
-    static var previews: some View {
-        MyPointView(token: Token(), point: 0)
     }
 }

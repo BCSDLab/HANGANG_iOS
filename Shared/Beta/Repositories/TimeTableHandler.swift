@@ -26,7 +26,7 @@ class TimeTableHandler: APIHandler {
     @Published var lectureResponse: [TimeTableLecture] = []
     //@Published var timeTableLectureResponse: MainTimeTable? = nil
     
-    func search(page: Int, token: Token, keyword: String)  {
+    func search(page: Int, token: Token?, keyword: String)  {
         let url: String = "https://api.hangang.in/timetable/lecture/list"
         
         let data: TimeTableLectureRequest = TimeTableLectureRequest(
@@ -40,9 +40,7 @@ class TimeTableHandler: APIHandler {
                    parameters: data,
                    encoder: URLEncodedFormParameterEncoder.default,
                    headers: [
-                    .authorization("Bearer " + token.access_token),
-                    HTTPHeader(
-                    name: "RefreshToken", value: "Bearer " + token.refresh_token)
+                    .authorization("Bearer " + (token?.access_token ?? ""))
                    ]
         ).responseDecodable { [weak self] (response: DataResponse<[TimeTableLecture], AFError>) in
             guard let weakSelf = self else { return }

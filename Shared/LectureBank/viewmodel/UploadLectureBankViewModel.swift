@@ -10,21 +10,81 @@ import Combine
 import UIKit
 
 class UploadLectureBankViewModel: ObservableObject, Identifiable {
+    var lectureHandler: LectureHandler = LectureHandler()
+
     @Published var title: String = ""
     @Published var lectureName: String = ""
-    @Published var semester: Int = 1
-    @Published var semesters: [Int] = [1,2,3,4,5,6]
+    @Published var semester: Semester = Semester(
+            id: 1,
+            semester: "2019년 1학기",
+            startTime: "20190201".stringToNewDate,
+            isRegular: true
+    )
+
+    var semesters: [Semester] = [
+        Semester(
+                id: 1,
+                semester: "2019년 1학기",
+                startTime: "20190201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 2,
+                semester: "2019년 2학기",
+                startTime: "20190801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 3,
+                semester: "2020년 1학기",
+                startTime: "20200201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 4,
+                semester: "2020년 2학기",
+                startTime: "20200801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 5,
+                semester: "2021년 1학기",
+                startTime: "20210201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 6,
+                semester: "2021년 여름학기",
+                startTime: "20210501".stringToNewDate,
+                isRegular: false
+        ),
+        Semester(
+                id: 7,
+                semester: "2021년 2학기",
+                startTime: "20210801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 8,
+                semester: "2021년 겨울학기",
+                startTime: "20211101".stringToNewDate,
+                isRegular: false
+        ),
+        Semester(
+                id: 9,
+                semester: "2022년 1학기",
+                startTime: "20220201".stringToNewDate,
+                isRegular: true
+        )
+    ]
+
     @Published var assignment: String = "기출자료"
     @Published var content: String = ""
     @Published var files: [FileBank] = []
     @Published var images: [UIImage] = []
-    /*@Published var uploadedFile: [[String: Any]] = [] {
-        didSet {
-
-        }
-    }*/
 
     var uploadFileHandler: UploadFileHandler = UploadFileHandler()
+
     
     private var disposables: Set<AnyCancellable> = []
 

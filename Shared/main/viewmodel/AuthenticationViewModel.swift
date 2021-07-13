@@ -11,45 +11,55 @@ import SwiftUI
 
 class AuthenticationViewModel: ObservableObject, Identifiable {
     @Published var isLoading: Bool = true
-    @Published var token: Token = Token() {
-        didSet {
-            if(token.access_token != "") {
+
+    @Published var token: Token? = nil {
+        didSet(oldVal) {
+            print("SetAccess = \(token?.access_token)")
+            print("SetRefresh = \(token?.refresh_token)")
+            if (result != "OK" && token != nil) {
                 tokenTest(token: token)
+            } else {
+                token = oldVal
             }
         }
     }
+
     @Published var result: String = "" {
         didSet {
-            /*if(result == "UNAUTHORIZED") {
-                refreshToken(token: self.token)
-            }*/
+            print(result)
+            if(result == "UNAUTHORIZED") {
+                refreshToken(token: token)
+            } else if(result == "OK" && (token?.access_token ?? "") != "") {
+                authenticationHandler.getMy(token: token)
+            }
         }
     }
+
     @Published var user: User? = nil
 
     var authenticationHandler: AuthenticationHandler = AuthenticationHandler()
+    //var myHandler: MyHandler = MyHandler()
 
     private var disposables: Set<AnyCancellable> = []
+
+    private var myPublisher: AnyPublisher<User?, Never> {
+        return authenticationHandler.$myResponse
+                .receive(on: RunLoop.main)
+                .map { $0 }
+                .eraseToAnyPublisher()
+    }
 
     private var checkTokenPublisher: AnyPublisher<String, Never> {
         authenticationHandler.$tokenTestResponse
                 .receive(on: RunLoop.main)
-                .map { response in
-                    guard let response = response else {
-                        return ""
-                    }
-
-                    print(response.httpStatus)
-
-                    return response.httpStatus ?? ""
-                }
+                .map { $0 }
                 .eraseToAnyPublisher()
     }
     
-    private var refreshTokenPublisher: AnyPublisher<Token, Never> {
+    private var refreshTokenPublisher: AnyPublisher<Token?, Never> {
         authenticationHandler.$refreshTokenResponse
                 .receive(on: RunLoop.main)
-                .map { $0 ?? Token()}
+                .map { $0 }
                 .eraseToAnyPublisher()
     }
 
@@ -77,14 +87,24 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
                 .assign(to: \.token, on: self)
                 .store(in: &disposables)
 
+        myPublisher
+                .receive(on: RunLoop.main)
+                .assign(to: \.user, on: self)
+                .store(in: &disposables)
+
         let accessToken = UserDefaults.standard.string(forKey: "access_token")
         print("accessToken: \(accessToken)")
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         print("refreshToken: \(refreshToken)")
-        token = Token(
-                refresh_token: refreshToken ?? "",
-                access_token: accessToken ?? ""
-        )
+
+        if(accessToken != nil) {
+            self.token = Token(
+                    refresh_token: refreshToken!,
+                    access_token: accessToken!
+            )
+            //tokenTest(token: self.token)
+        }
+
 
     }
     
@@ -92,26 +112,26 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
         self.result = result
     }
 
-    func tokenTest(token: Token) {
+    func tokenTest(token: Token?) {
         authenticationHandler.testToken(token: token)
     }
     
-    /*func refreshToken(token: Token) {
+    func refreshToken(token: Token?) {
         authenticationHandler.refreshToken(token: token)
-    }*/
+    }
     
     func logout() {
         self.result = ""
-        self.token = Token()
+        self.token = nil
         deleteToken()
     }
     
     func saveToken() {
         print("SaveToken")
-        print(self.token.access_token)
-        print(self.token.refresh_token)
-        UserDefaults.standard.set(self.token.access_token, forKey: "access_token")
-        UserDefaults.standard.set(self.token.refresh_token, forKey: "refresh_token")
+        print(self.token?.access_token)
+        print(self.token?.refresh_token)
+        UserDefaults.standard.set(self.token?.access_token ?? "", forKey: "access_token")
+        UserDefaults.standard.set(self.token?.refresh_token ?? "", forKey: "refresh_token")
     }
     
     

@@ -7,7 +7,6 @@
 
 import Foundation
 import ElliotableSwiftUI
-import Foundation
 import Combine
 import SwiftUI
 import Alamofire
@@ -16,7 +15,7 @@ import SwiftyJSON
 class TimeTableViewModel: ObservableObject, Identifiable {
     @Published var query: String = ""
     @Published var department: String = ""
-    var token: Token
+    var token: Token?
     
     
     @Published var lectureResult: [TimeTableLecture] = []
@@ -36,7 +35,7 @@ class TimeTableViewModel: ObservableObject, Identifiable {
         }
     
     
-    init(token: Token) {
+    init(token: Token?) {
         self.token = token
         
         searchLecturePublisher
@@ -60,12 +59,8 @@ class TimeTableViewModel: ObservableObject, Identifiable {
         
         AF.request(url,
                    method: .get,
-                   parameters: ["":""],
-                   encoder: URLEncodedFormParameterEncoder.default,
                    headers: [
-                    .authorization("Bearer " + token.access_token),
-                    HTTPHeader(
-                    name: "RefreshToken", value: "Bearer " + token.refresh_token)
+                    .authorization("Bearer " + (token?.access_token ?? ""))
                    ]
         ).validate().responseDecodable { (response: DataResponse<MainTimeTable, AFError>) in
             switch response.result {
@@ -97,9 +92,7 @@ class TimeTableViewModel: ObservableObject, Identifiable {
                    parameters: AddLectureParameter(lecture_id: lectureId, user_timetable_id: 93),
                    encoder: JSONParameterEncoder.default,
                    headers: [
-                    .authorization("Bearer " + token.access_token),
-                    HTTPHeader(
-                    name: "RefreshToken", value: "Bearer " + token.refresh_token)
+                    .authorization("Bearer " + (token?.access_token ?? ""))
                    ]
         ).validate().responseJSON() { response in
             

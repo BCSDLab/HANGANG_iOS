@@ -17,14 +17,11 @@ struct TimeTableView: View {
     
     let daySymbols = ["월", "화", "수", "목", "금", "토", "일"]
     
-    init() {
+    init(token: Token?) {
         let accessToken = UserDefaults.standard.string(forKey: "access_token")
         
         self.viewModel = TimeTableViewModel(
-        token: Token(
-            refresh_token: "",
-            access_token: accessToken ?? ""
-            )
+        token: token
         )
         
     }
@@ -198,12 +195,5 @@ struct TimeTableView: View {
                 })
             }
         }
-    }
-}
-
-struct TimeTableView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimeTableView()
-            
     }
 }

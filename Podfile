@@ -6,6 +6,7 @@ target 'hangang (iOS)' do
   use_frameworks!
 
   # Pods for hangang (iOS)
+  pod 'Firebase/Analytics'
   pod 'Alamofire', '~> 5.2'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'ElliotableSwiftUI'

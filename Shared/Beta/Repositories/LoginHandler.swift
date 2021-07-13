@@ -16,7 +16,7 @@ struct LoginRequest: Encodable {
 
 class LoginHandler: APIHandler {
     
-    @Published var loginResponse: Token?
+    @Published var loginResponse: Token? = nil
     @Published var isLoading = false
     
     func login(email: String, password: String)  {
@@ -26,21 +26,24 @@ class LoginHandler: APIHandler {
         print(sha256(str: password));
         
         let data = LoginRequest(
-            portal_account: email + "@koreatech.ac.kr",
+            portal_account: "\(email)@koreatech.ac.kr",
             password: sha256(str: password)
         )
+
+        print(data)
         
         AF.request(url,
                    method: .post,
                    parameters: data,
                    encoder: JSONParameterEncoder.default
-        ).responseDecodable { [weak self] (response: DataResponse<Token, AFError>) in
+        ).responseDecodable { [weak self] (response: DataResponse<Token?, AFError>) in
             guard let weakSelf = self else { return }
                         
-            guard let response = weakSelf.handleResponse(response) as? Token else {
+            guard let response = weakSelf.handleResponse(response) as? Token? else {
                 weakSelf.isLoading = false
                             return
                         }
+            print(response)
             weakSelf.isLoading = false
             weakSelf.loginResponse = response
         }

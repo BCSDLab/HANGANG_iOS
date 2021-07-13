@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct hangangApp: App {
-    @StateObject var authenticationViewModel = AuthenticationViewModel()
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    
+    init() {
+        FirebaseApp.configure()
+        self.authenticationViewModel = AuthenticationViewModel()
+    }
     
     var body: some Scene {
         WindowGroup {

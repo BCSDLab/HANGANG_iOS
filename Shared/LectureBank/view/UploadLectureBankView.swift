@@ -70,7 +70,7 @@ struct UploadLectureBankView: View {
                                 self.showingSemesterActionSheet = true
                             }) {
                                 HStack {
-                                    Text("\(self.viewModel.semester.semesterToString)")
+                                    Text("\(self.viewModel.semester.semester)")
                                         .font(.system(size: 14))
                                         .fontWeight(.regular)
                                         .foregroundColor(Color("PrimaryBlack"))
@@ -182,15 +182,62 @@ struct UploadLectureBankView: View {
 
                                 if(fileData.isFile) {
                                     let fileName = fileData.url!.lastPathComponent
+                                    let identifier = fileName.split(separator: ".").last
+                                    //print(identifier)
                                     VStack {
-                                        Text("\(fileName)")
-                                        //Text("\(size)")
-                                    }
+                                        HStack{
+                                            Image(String(identifier ?? "txt"))
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .padding(8)
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                        HStack {
+                                            Spacer()
+                                            Text("\(fileName)")
+                                                    .fontWeight(.regular)
+                                                    .font(.system(size: 12))
+                                                    .foregroundColor(Color("PrimaryBlack"))
+                                                    .frame(height: 18, alignment: .center)
+                                                    .padding(8)
+                                        }
+                                    }.frame(width: 100, height: 100, alignment: .topLeading)
+                                            .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                            .stroke(Color("BorderColor"), lineWidth: 1)
+                                            )
+                                            .cornerRadius(8)
                                 } else {
-                                    Image(uiImage: fileData.image!)
+
+                                    /*Image(uiImage: fileData.image!)
                                             .resizable()
                                             .scaledToFit()
-                                        .frame(width: 100)
+                                        .frame(width: 100)*/
+                                    VStack {
+                                        HStack{
+                                            Image("png")
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .padding(8)
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                        HStack {
+                                            Spacer()
+                                            Text("\(String(format:"%02X", fileData.image.hashValue)).png")
+                                                    .fontWeight(.regular)
+                                                    .font(.system(size: 12))
+                                                    .foregroundColor(Color("PrimaryBlack"))
+                                                    .frame(height: 18, alignment: .center)
+                                                    .padding(8)
+                                        }
+                                    }.frame(width: 100, height: 100, alignment: .topLeading)
+                                            .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                            .stroke(Color("BorderColor"), lineWidth: 1)
+                                            )
+                                            .cornerRadius(8)
                                 }
                             }
                         }
@@ -259,25 +306,25 @@ struct UploadLectureBankView: View {
                 }
             }.bottomSheet(isPresented: self.$showingSemesterActionSheet, height: geometry.size.height / 2) {
                 VStack{
-                    Text("수강학기")
+                    Text("제작 및 수강학기")
                         .font(.system(size: 14))
                         .fontWeight(.medium)
                         .foregroundColor(Color("PrimaryBlack"))
                         .frame(height: 21)
                     
-                    List(self.viewModel.semesters, id: \.self) { semester in
+                    List(self.viewModel.semesters, id: \.self) { s in
                         Button(action: {
-                            self.viewModel.semester = semester
+                            self.viewModel.semester = s
                             self.showingSemesterActionSheet = false
                         }) {
                             HStack {
-                                Text("\(semester.semesterToString)")
+                                Text("\(s.semester)")
                                     .font(.system(size: 14))
                                     .fontWeight(.medium)
                                     .foregroundColor(Color("PrimaryBlack"))
                                     .frame(height: 21)
                                 Spacer()
-                                if(semester == self.viewModel.semester) {
+                                if(s == self.viewModel.semester) {
                                     Image(systemName: "checkmark")
                                         .foregroundColor(Color("PrimaryBlue"))
                                 }

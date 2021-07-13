@@ -11,7 +11,7 @@ struct MyView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     @ObservedObject var viewModel: MyViewModel
     
-    init(token: Token) {
+    init(token: Token?) {
         self.viewModel = MyViewModel(
         token: token
         )
@@ -22,13 +22,13 @@ struct MyView: View {
             NavigationView {
                 ScrollView{
                     VStack{
-                        Text(self.viewModel.user?.nickname ?? "익명")
+                        Text(self.authenticationViewModel.user?.nickname ?? "익명")
                                 .fontWeight(.medium)
                                 .font(.system(size: 18))
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 4, trailing: 0))
                             .frame(width: geometry.size.width, alignment: .leading)
-                        Text((self.viewModel.user?.major ?? []).joined(separator: ","))
+                        Text((self.authenticationViewModel.user?.major ?? []).joined(separator: ","))
                                 .fontWeight(.regular)
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("DisableColor"))
@@ -36,9 +36,9 @@ struct MyView: View {
                             .frame(width: geometry.size.width, alignment: .leading)
                         
                         NavigationLink(destination: MyPointView(token: self.authenticationViewModel.token,
-                            point: self.viewModel.user?.point ?? 0)) {
+                            point: self.authenticationViewModel.user?.point ?? 0)) {
                             HStack{
-                                Text("\(self.viewModel.user?.point ?? 0)P")
+                                Text("\(self.authenticationViewModel.user?.point ?? 0)P")
                                     .fontWeight(.medium)
                                     .font(.system(size: 24))
                                     .foregroundColor(.white)
@@ -136,70 +136,93 @@ struct MyView: View {
                             }*/
                         }.padding(.vertical, 24)
                         Divider()
-                        NavigationLink(destination: EmptyView()) {
-                            HStack {
-                                Text("내 스크랩")
-                                    .fontWeight(.medium)
-                                    .font(.system(size: 16))
-                                    .foregroundColor(Color("PrimaryBlack"))
-                                    .frame(height: 24)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .frame(width: 18, height: 18)
-                                    .foregroundColor(Color("PrimaryBlack"))
-                            }.padding(EdgeInsets(
-                                top: 24, leading: 16, bottom: 26, trailing: 16
-                            ))
-                        }
-                        Divider()
-                        VStack(spacing: 0){
-                            NavigationLink(destination: EmptyView()) {
+                        Group {
+                            NavigationLink(destination: LectureScrapView(
+                                    token: self.authenticationViewModel.token
+                            ).tripleEmptyNavigationLink()) {
                                 HStack {
-                                    Text("구입한 자료")
-                                        .fontWeight(.medium)
-                                        .font(.system(size: 16))
-                                        .foregroundColor(Color("PrimaryBlack"))
-                                        .frame(height: 24)
+                                    Text("강의평 스크랩")
+                                            .fontWeight(.medium)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(Color("PrimaryBlack"))
+                                            .frame(height: 24)
                                     Spacer()
                                     Image(systemName: "chevron.right")
-                                        .frame(width: 18, height: 18)
-                                        .foregroundColor(Color("PrimaryBlack"))
-                                }.padding(.bottom, 16)
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Color("PrimaryBlack"))
+                                }.padding(EdgeInsets(
+                                        top: 24, leading: 16, bottom: 26, trailing: 16
+                                ))
                             }
-                            ScrollView(.horizontal){
-                                HStack(spacing: 8){
-                                    ForEach(0..<(self.viewModel.purchaseList?.count ?? 0)) { index in
-                                        VStack {
-                                            HStack{
-                                                Image("\(self.viewModel.purchaseList?[index].uploadFiles.first?.ext ?? "txt")")
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .padding(8)
+                            Divider()
+                            NavigationLink(destination: LectureBankScrapView(
+                                    token: self.authenticationViewModel.token
+                            ).tripleEmptyNavigationLink()) {
+                                HStack {
+                                    Text("강의자료 스크랩")
+                                            .fontWeight(.medium)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(Color("PrimaryBlack"))
+                                            .frame(height: 24)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Color("PrimaryBlack"))
+                                }.padding(EdgeInsets(
+                                        top: 24, leading: 16, bottom: 26, trailing: 16
+                                ))
+                            }
+                            Divider()
+                            VStack(spacing: 0){
+                                NavigationLink(destination: PurchasedItemView(
+                                        token: self.authenticationViewModel.token
+                                )) {
+                                    HStack {
+                                        Text("구입한 자료")
+                                                .fontWeight(.medium)
+                                                .font(.system(size: 16))
+                                                .foregroundColor(Color("PrimaryBlack"))
+                                                .frame(height: 24)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                                .frame(width: 18, height: 18)
+                                                .foregroundColor(Color("PrimaryBlack"))
+                                    }.padding(.bottom, 16)
+                                }
+                                ScrollView(.horizontal){
+                                    HStack(spacing: 8){
+                                        ForEach(0..<(self.viewModel.purchaseList?.count ?? 0)) { index in
+                                            VStack {
+                                                HStack{
+                                                    Image("\(self.viewModel.purchaseList?[index].uploadFiles.first?.ext ?? "txt")")
+                                                            .resizable()
+                                                            .frame(width: 24, height: 24)
+                                                            .padding(8)
+                                                    Spacer()
+                                                }
                                                 Spacer()
-                                            }
-                                            Spacer()
-                                            HStack {
-                                                Spacer()
-                                                Text("\(self.viewModel.purchaseList?[index].uploadFiles.first?.fileName ?? "")")
-                                                    .fontWeight(.regular)
-                                                    .font(.system(size: 12))
-                                                    .foregroundColor(Color("PrimaryBlack"))
-                                                    .frame(height: 18, alignment: .center)
-                                                    .padding(8)
-                                            }
-                                        }.frame(width: 100, height: 100, alignment: .topLeading)
-                                        .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(Color("BorderColor"), lineWidth: 1)
-                                        )
-                                                .cornerRadius(8)
+                                                HStack {
+                                                    Spacer()
+                                                    Text("\(self.viewModel.purchaseList?[index].uploadFiles.first?.fileName ?? "")")
+                                                            .fontWeight(.regular)
+                                                            .font(.system(size: 12))
+                                                            .foregroundColor(Color("PrimaryBlack"))
+                                                            .frame(height: 18, alignment: .center)
+                                                            .padding(8)
+                                                }
+                                            }.frame(width: 100, height: 100, alignment: .topLeading)
+                                                    .overlay(
+                                                            RoundedRectangle(cornerRadius: 8)
+                                                                    .stroke(Color("BorderColor"), lineWidth: 1)
+                                                    )
+                                                    .cornerRadius(8)
+                                        }
                                     }
                                 }
-                            }
-                        }.padding(EdgeInsets(
-                            top: 24, leading: 16, bottom: 26, trailing: 16
-                        ))
-
+                            }.padding(EdgeInsets(
+                                    top: 24, leading: 16, bottom: 26, trailing: 16
+                            ))
+                        }
 
                     }
                 }.frame(width: geometry.size.width, alignment: .leading)
@@ -224,6 +247,6 @@ struct MyView: View {
 
 struct MyView_Previews: PreviewProvider {
     static var previews: some View {
-        MyView(token: Token())
+        MyView(token: nil)
     }
 }

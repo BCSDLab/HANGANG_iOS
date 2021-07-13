@@ -59,7 +59,9 @@ struct LoginView: View {
                         
                         .padding(.top, 28)
                         .onReceive(self.viewModel.tokenChange) { token in
-                            authenticationViewModel.token = token
+                            if(!token.access_token.isEmpty) {
+                                authenticationViewModel.token = token
+                            }
                         }
                     }.padding([.leading, .trailing], CGFloat(16))
                     

@@ -46,9 +46,10 @@ struct ContentView: View {
                     case "DocumentText":
                         LectureBankView()
                     case "Template":
-                        TimeTableView()
+                        TimeTableView(token: self.authenticationViewModel.token)
                     case "User":
                         MyView(token: self.authenticationViewModel.token)
+                                .tripleEmptyNavigationLink()
                     default:
                         EmptyView()
                     }

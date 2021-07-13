@@ -12,8 +12,8 @@ class SettingsViewModel: ObservableObject, Identifiable {
     @Published var isAuthLoggedIn: Bool = false {
         didSet{
             if(isAuthLoggedIn) {
-                UserDefaults.standard.set(self.token.access_token, forKey: "access_token")
-                UserDefaults.standard.set(self.token.refresh_token, forKey: "refresh_token")
+                UserDefaults.standard.set((self.token?.access_token ?? ""), forKey: "access_token")
+                UserDefaults.standard.set((self.token?.refresh_token ?? ""), forKey: "refresh_token")
             } else {
                 UserDefaults.standard.removeObject(forKey: "access_token")
                 UserDefaults.standard.removeObject(forKey: "refresh_token")
@@ -22,31 +22,36 @@ class SettingsViewModel: ObservableObject, Identifiable {
     }
     
     
-    var token: Token = Token()
-    var user: User? = nil
+    var token: Token? = nil
+    @Published var user: User? = nil
     
-    var myHandler: MyHandler = MyHandler()
+    //var myHandler: MyHandler = MyHandler()
     
     private var disposables: Set<AnyCancellable> = []
     
-    private var myPublisher: AnyPublisher<User?, Never> {
+    /*private var myPublisher: AnyPublisher<User?, Never> {
         return myHandler.$myResponse
                 .receive(on: RunLoop.main)
             .print()
                 .map { $0 }
             .print()
             .eraseToAnyPublisher()
-        }
+        }*/
     
-    init(token: Token) {
+    init(token: Token?) {
         self.token = token
+
         if(UserDefaults.standard.string(forKey: "access_token") != nil) {
             isAuthLoggedIn = true
         }
-        myPublisher
+        /*myPublisher
                     .receive(on: RunLoop.main)
                     .assign(to: \.user, on: self)
-                    .store(in: &disposables)
+                    .store(in: &disposables)*/
+    }
+
+    func getMy(user: User?) {
+        self.user = user
     }
     
     

@@ -22,6 +22,9 @@ struct ReviewDetailView: View {
         self.viewModel = ReviewDetailViewModel(
             lecture: lecture
         )
+        viewModel.getTotalEvaluation()
+        viewModel.getRating()
+        viewModel.getReviews()
     }
     
     var body: some View {
@@ -272,11 +275,11 @@ struct ReviewDetailView: View {
                 }.padding(.horizontal, 16)
                 
             }//.padding(16)
-        }.onAppear {
+        }/*.onAppear {
             viewModel.getTotalEvaluation()
             viewModel.getRating()
             viewModel.getReviews()
-        }.navigationBarTitleDisplayMode(.inline)
+        }*/.navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: WriteReviewView(

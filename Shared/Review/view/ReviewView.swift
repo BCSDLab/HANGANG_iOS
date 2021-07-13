@@ -127,59 +127,7 @@ struct ReviewView: View {
                         
                         if(viewModel.lectureResult.count > 0) {
                             ForEach(0..<viewModel.lectureResult.count) { index in
-                                NavigationLink(destination: ReviewDetailView(
-                                                lecture: viewModel.lectureResult[index]
-                                )) {
-                                    VStack(alignment: .leading, spacing: 0){
-                                        HStack(spacing: 0){
-                                            Text("\(viewModel.lectureResult[index].name)")
-                                                    .font(.system(size: 14))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(Color("PrimaryBlack"))
-                                                    .frame(height: 21)
-                                            Text(" (\(viewModel.lectureResult[index].reviewCount ?? 0))")
-                                                    .font(.system(size: 11))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(Color("DisableColor"))
-                                                    .frame(height: 16)
-                                                Spacer()
-                                            Text("\(viewModel.lectureResult[index].classification ?? "")")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.regular)
-                                                    .foregroundColor(Color("PrimaryBlue"))
-                                                    .frame(height: 18)
-                                            }
-                                        Text("\(viewModel.lectureResult[index].professor)")
-                                            .font(.system(size: 14))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("PrimaryBlack"))
-                                            .frame(height: 21)
-                                            .padding(.bottom, 9)
-                                            
-                                        HStack(alignment:.bottom,spacing: 0){
-                                            if((viewModel.lectureResult[index].top3HashTag ?? []).count > 0) {
-                                                ForEach(viewModel.lectureResult[index].top3HashTag ?? [], id: \.self) { hash in
-                                                    Text("#\(hash.tag) ")
-                                                        .font(.system(size: 12))
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(Color("DisableColor"))
-                                                        .frame(height: 18)
-                                                }
-                                            }
-                                                Spacer()
-                                            Text("\(String(format: "%.1f",  viewModel.lectureResult[index].totalRating ?? 0.0))")
-                                                    .font(.system(size: 20))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(Color("PrimaryBlack"))
-                                                    .frame(height: 30)
-                                            }
-                                        }.padding(16)
-                                        .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(Color("BorderColor"), lineWidth: 1)
-                                        )
-                                    .padding(.horizontal, 16)
-                                }
+                                LectureItem(lecture: viewModel.lectureResult[index])
                             }
                         }
                     }

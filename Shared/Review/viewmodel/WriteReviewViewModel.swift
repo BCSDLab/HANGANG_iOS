@@ -43,7 +43,7 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
     private var disposables: Set<AnyCancellable> = []
     
     private var semestersPublisher: AnyPublisher<[Int], Never> {
-        lectureHandler.$semesters
+        lectureHandler.$lectureSemesters
                 .receive(on: RunLoop.main)
             .print()
                 .map { $0 }

@@ -60,6 +60,33 @@ extension UIColor {
     }
 }
 
+struct TripleEmptyNavigationLink: View {
+    var body: some View {
+        VStack {
+            NavigationLink(destination: EmptyView()) {EmptyView()}
+            NavigationLink(destination: EmptyView()) {EmptyView()}
+            NavigationLink(destination: EmptyView()) {EmptyView()}
+
+        }
+    }
+}
+
+
+struct TripleEmptyNavigationLinkBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+                .background(TripleEmptyNavigationLink())
+    }
+}
+
+
+
+extension View {
+    func tripleEmptyNavigationLink()-> some View {
+        self.modifier(TripleEmptyNavigationLinkBackground())
+    }
+}
+
 extension String {
     func getArrayAfterRegex(regex: String) -> [String] {
         do {
@@ -79,6 +106,13 @@ extension String {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter.date(from: self)!
+    }
+
+    var stringToNewDate:Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = "yyyyMMdd"
         return dateFormatter.date(from: self)!
     }
 }

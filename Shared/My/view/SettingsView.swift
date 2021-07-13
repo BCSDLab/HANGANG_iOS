@@ -15,9 +15,10 @@ struct SettingsView: View {
     
     
     
-    init(token: Token) {
+    init(token: Token?) {
         self.viewModel = SettingsViewModel(
-        token: token)
+        token: token
+        )
     }
     
     var body: some View {
@@ -34,7 +35,7 @@ struct SettingsView: View {
                         .foregroundColor(Color("PrimaryBlack"))
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0))
                     NavigationLink(destination: EditMyView(
-                        user: self.myViewModel.user
+                        user: self.authenticationViewModel.user
                     )) {
                         HStack{
                             Text("내 정보 변경")
@@ -142,13 +143,17 @@ struct SettingsView: View {
                 nc.navigationBar.barTintColor = .white
                 nc.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "PrimaryBlack")]
             })
+        }.onAppear() {
+            self.viewModel.getMy(
+                    user: self.authenticationViewModel.user
+            )
         }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(token: Token())
+        SettingsView(token: nil)
     }
 }
 //192.168.219.104

@@ -43,7 +43,64 @@ class LectureHandler: APIHandler {
     @Published var reviewCount: Int = 0
     @Published var totalEvaluationResponse: TotalEvaluation? = nil
     @Published var ratingResponse: [Double] = []
-    @Published var semesters: [Int] = []
+    @Published var lectureSemesters: [Int] = []
+    let semesters: [Semester] = [
+        Semester(
+                id: 1,
+                semester: "2019년 1학기",
+                startTime: "20190201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 2,
+                semester: "2019년 2학기",
+                startTime: "20190801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 3,
+                semester: "2020년 1학기",
+                startTime: "20200201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 4,
+                semester: "2020년 2학기",
+                startTime: "20200801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 5,
+                semester: "2021년 1학기",
+                startTime: "20210201".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 6,
+                semester: "2021년 여름학기",
+                startTime: "20210501".stringToNewDate,
+                isRegular: false
+        ),
+        Semester(
+                id: 7,
+                semester: "2021년 2학기",
+                startTime: "20210801".stringToNewDate,
+                isRegular: true
+        ),
+        Semester(
+                id: 8,
+                semester: "2021년 겨울학기",
+                startTime: "20211101".stringToNewDate,
+                isRegular: false
+        ),
+        Semester(
+                id: 9,
+                semester: "2022년 1학기",
+                startTime: "20220201".stringToNewDate,
+                isRegular: true
+        )
+    ]
+
     @Published var addReviewResponse: HangangResponse? = nil
     
     func search(page: Int)  {
@@ -236,7 +293,7 @@ class LectureHandler: APIHandler {
             guard let response = weakSelf.handleResponse(response) as? [Int] else {
                             return
                         }
-            weakSelf.semesters = response
+            weakSelf.lectureSemesters = response
         }
     }
 }

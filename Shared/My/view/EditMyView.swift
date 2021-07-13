@@ -35,7 +35,7 @@ struct EditMyView: View {
     var body: some View {
         GeometryReader{ geometry in
             VStack(alignment: .leading){
-                Group {
+                /*Group {
                     Text("이름 (학번)")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(Color("PrimaryBlack"))
@@ -56,7 +56,7 @@ struct EditMyView: View {
                     }
                     Divider()
                         .background(self.viewModel.isEdit ? Color("PrimaryBlue") : Color("BorderColor"))
-                }
+                }*/
                 
                 Group {
                     Text("아이디")
