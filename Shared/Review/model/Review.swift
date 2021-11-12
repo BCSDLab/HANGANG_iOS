@@ -12,9 +12,10 @@ struct Review: Codable, Identifiable, Hashable {
     let id, lectureID, userID: Int
     let semesterID: Int?
     let semesterDate, nickname: String
-    let isLiked: Bool
+    var isLiked: Bool
     let rating: Double
-    let likes, assignmentAmount, difficulty, gradePortion: Int
+    var likes: Int
+    let assignmentAmount, difficulty, gradePortion: Int
     let attendanceFrequency: Int
     let testTimes: Int?
     let comment: String

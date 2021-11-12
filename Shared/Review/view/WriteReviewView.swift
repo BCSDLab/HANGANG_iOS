@@ -11,6 +11,7 @@ import BottomSheet
 
 struct WriteReviewView: View {
     @ObservedObject var viewModel: WriteReviewViewModel
+    @State var writeSucceedDialog: Bool = false
     let grade: [String] = ["", "하", "중", "상"]
     let gradePortion: [String] = ["", "아쉽게주심", "적당히주심", "후하게주심"]
     let assignment:[Assignment] = [
@@ -80,7 +81,7 @@ struct WriteReviewView: View {
         fillColors: [Color("PrimaryOrenge")]
     )
     
-    init(lecture: Lecture) {
+    init(lecture: Lecture?) {
         UITextView.appearance().backgroundColor = .clear
         self.viewModel = WriteReviewViewModel(
             lecture: lecture
@@ -105,7 +106,7 @@ struct WriteReviewView: View {
                                     self.showingSemesterActionSheet = true
                                 }) {
                                     HStack {
-                                        Text("\(self.viewModel.semester?.semesterToString ?? "")")
+                                        Text("\(self.viewModel.semester?.semester ?? "")")
                                             .font(.system(size: 14))
                                             .fontWeight(.regular)
                                             .foregroundColor(Color("PrimaryBlack"))
@@ -419,11 +420,9 @@ struct WriteReviewView: View {
                                 self.viewModel.assignments.isEmpty ||
                                 self.viewModel.comment.isEmpty
                         )
-                        .onReceive(self.viewModel.responseChange) { response in
-                            if(response.httpStatus == "OK") {
-                                print("OKOKOKOKOK")
-                            } else {
-                                
+                        .onReceive(self.viewModel.responseChange) { (response: HangangResponse) in
+                            if(response.message == "리뷰가 정상적으로 작성되었습니다.") {
+                                self.writeSucceedDialog = true
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -439,7 +438,7 @@ struct WriteReviewView: View {
                     
                     .toolbar {
                         ToolbarItem(placement: .principal) {
-                            Text("\(self.viewModel.lecture.name)")
+                            Text("\(self.viewModel.lecture?.name ?? "")")
                                 .font(.system(size: 16))
                                 .fontWeight(.medium)
                                 .foregroundColor(Color("PrimaryBlack"))
@@ -466,7 +465,7 @@ struct WriteReviewView: View {
                             self.showingSemesterActionSheet = false
                         }) {
                             HStack {
-                                Text("\(semester.semesterToString)")
+                                Text("\(semester?.semester ?? "")")
                                     .font(.system(size: 14))
                                     .fontWeight(.medium)
                                     .foregroundColor(Color("PrimaryBlack"))
@@ -487,6 +486,11 @@ struct WriteReviewView: View {
                 }
                 .background(Color.white)
                 .foregroundColor(.white)
+            }.alert(isPresented: self.$writeSucceedDialog) {
+                Alert(
+                        title: Text(""), message: Text("리뷰가 정상적으로 작성되었습니다.").font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("PrimaryBlack"))
+                )
             }
             
         }

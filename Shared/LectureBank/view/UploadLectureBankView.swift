@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct UploadLectureBankView: View {
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     @ObservedObject var viewModel: UploadLectureBankViewModel
     @State private var showDocumentPicker: Bool = false
     @State private var showImagePicker: Bool = false
     @State private var showingSemesterActionSheet: Bool = false
+    @State var writeSucceedDialog: Bool = false
+    @State private var showingLectureSheet: Bool = false
     var assignments: [String] = ["기출자료", "필기자료", "과제자료", "강의자료", "기타자료"]
     
     init() {
@@ -37,14 +40,28 @@ struct UploadLectureBankView: View {
                             .background(Color("BorderColor"))
                     }
                     Group {
-                        HStack {
-                            TextField("과목명 검색", text: self.$viewModel.lectureName)
-                                .autocapitalization(.none)
-                                .font(.system(size: 16))
-                                .padding(EdgeInsets(top: 7, leading: 16, bottom: 7, trailing: 0))
+                        HStack(spacing: 0) {
+                            if(self.viewModel.selectedLecture == nil) {
+                                TextField("과목명 검색", text: self.$viewModel.lectureName)
+                                   .autocapitalization(.none)
+                                   .font(.system(size: 16))
+                                   .padding(EdgeInsets(top: 7, leading: 16, bottom: 7, trailing: 0))
+                            } else {
+                                HStack {
+                                    Text("\(self.viewModel.selectedLecture!.name ?? "")")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(Color("PrimaryBlack"))
+                                        .padding(EdgeInsets(top: 7, leading: 16, bottom: 7, trailing: 8))
+                                    Text("\(self.viewModel.selectedLecture!.professor ?? "")")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color("DisableColor"))
+                                        .padding(EdgeInsets(top: 7, leading: 0, bottom: 7, trailing: 0))
+                                }
+                            }
+                             
                             Spacer()
                             Button(action: {
-                                
+                                self.showingLectureSheet = true
                             }) {
                                 Text("검색")
                                     .font(.system(size: 12))
@@ -64,7 +81,7 @@ struct UploadLectureBankView: View {
                             Text("제작 및 수강학기")
                                 .font(.system(size: 16))
                                 .foregroundColor(Color("DisableColor"))
-                                .padding(EdgeInsets(top: 7, leading: 16, bottom: 7, trailing: 16))
+                                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
                             Spacer()
                             Button(action: {
                                 self.showingSemesterActionSheet = true
@@ -95,17 +112,23 @@ struct UploadLectureBankView: View {
                             LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 8), count: 4), spacing: 8) {
                                 ForEach(self.assignments, id: \.self) { a in
                                     Button(action: {
-                                        self.viewModel.assignment = a
+
+                                        if(self.viewModel.assignment.contains(a)) {
+                                            var index = self.viewModel.assignment.index(of: a);
+                                            self.viewModel.assignment.remove(at: index!);
+                                        } else {
+                                            self.viewModel.assignment.append(a)
+                                        }
                                         
                                     }) {
                                         Text("\(a)")
                                             .font(.system(size: 14))
                                             .fontWeight(.medium)
-                                            .foregroundColor(self.viewModel.assignment == a ? .white : Color("PrimaryBlack"))
+                                            .foregroundColor(self.viewModel.assignment.contains(a) ? .white : Color("PrimaryBlack"))
                                             .frame(width: 76, height: 32)
                                             
                                     }
-                                    .background(self.viewModel.assignment == a ? Color("PrimaryBlue") : Color("BorderColor"))
+                                    .background(self.viewModel.assignment.contains(a) ? Color("PrimaryBlue") : Color("BorderColor"))
                                     .cornerRadius(20.0)
                                     .animation(.easeInOut)
                                 }
@@ -244,7 +267,7 @@ struct UploadLectureBankView: View {
                     }
                     
                     Button(action: {
-                        
+                        self.viewModel.uploadLectureBank(user: self.authenticationViewModel.user)
                     }) {
                         HStack{
                             Spacer()
@@ -260,13 +283,9 @@ struct UploadLectureBankView: View {
                             self.viewModel.assignments.isEmpty ||
                             self.viewModel.comment.isEmpty
                     )*/
-                    /*.onReceive(self.viewModel.responseChange) { response in
-                        if(response.httpStatus == "OK") {
-                            print("OKOKOKOKOK")
-                        } else {
-                            
-                        }
-                    }*/
+                    .onReceive(self.viewModel.responseChange) { response in
+                        self.writeSucceedDialog = true
+                    }
                     .buttonStyle(PlainButtonStyle())
                     .background(/*self.viewModel.hashTags.isEmpty || self.viewModel.assignments.isEmpty ||
                                     self.viewModel.comment.isEmpty ? Color("DisabledBlue") : */Color("PrimaryBlue"))
@@ -275,6 +294,10 @@ struct UploadLectureBankView: View {
                     
                     
                 }
+            }.sheet(isPresented: self.$showingLectureSheet) {
+                SearchLectureView(query: self.viewModel.selectedLecture == nil ? self.viewModel.lectureName: "")
+                        .environmentObject(self.viewModel)
+                
             }.sheet(isPresented: self.$showDocumentPicker) {
                 DocumentPicker(callback: { url in
                     do {
@@ -339,6 +362,11 @@ struct UploadLectureBankView: View {
                 }
                 .background(Color.white)
                 .foregroundColor(.white)
+            }.alert(isPresented: self.$writeSucceedDialog) {
+                Alert(
+                        title: Text(""), message: Text("강의자료가 정상적으로 작성되었습니다.").font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("PrimaryBlack"))
+                )
             }
             
         }

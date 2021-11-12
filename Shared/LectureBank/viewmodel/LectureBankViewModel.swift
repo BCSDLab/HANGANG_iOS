@@ -12,7 +12,7 @@ class LectureBankViewModel: ObservableObject, Identifiable {
     @Published var query: String = ""
     @Published var department: String = "교양학부" {
         didSet{
-            search()
+            search(query: query)
         }
     }
     @Published var page: Int = 1
@@ -20,16 +20,28 @@ class LectureBankViewModel: ObservableObject, Identifiable {
     //id, hits
     @Published var sort: String = "id" {
         didSet{
-            search()
+            search(query: query)
         }
     }
     @Published var categories: [String] = [] {
         didSet {
-            search()
+            search(query: query)
         }
     }
     
     @Published var lectureBankResult: [LectureBank] = []
+    @Published var isLoading: Bool = false
+    @Published var isMax: Bool = false
+
+    @Published var updateBankResult: [LectureBank] = [] {
+        didSet {
+            if(updateBankResult.isEmpty) {
+                isMax = true
+            } else {
+                self.lectureBankResult = lectureBankResult + updateBankResult
+            }
+        }
+    }
     
     var lectureBankHandler: LectureBankHandler = LectureBankHandler()
     
@@ -41,18 +53,32 @@ class LectureBankViewModel: ObservableObject, Identifiable {
                 .map { $0 }
             .eraseToAnyPublisher()
         }
-    
+
+    private var loadingPublisher: AnyPublisher<Bool, Never> {
+        lectureBankHandler.$isLoading
+                .receive(on: RunLoop.main)
+                .map { $0 }
+                .eraseToAnyPublisher()
+    }
     
     init() {
         
         searchLectureBankPublisher
                     .receive(on: RunLoop.main)
-                    .assign(to: \.lectureBankResult, on: self)
+                    .assign(to: \.updateBankResult, on: self)
                     .store(in: &disposables)
-        search()
+
+        loadingPublisher
+                .receive(on: RunLoop.main)
+                .assign(to: \.isLoading, on: self)
+                .store(in: &disposables)
+        search(query: "")
     }
     
-    func search() {
+    func search(query: String) {
+        self.query = query
+        isMax = false
+        page = 1
         lectureBankHandler.search(
             department: department,
             keyword: query,
@@ -60,6 +86,19 @@ class LectureBankViewModel: ObservableObject, Identifiable {
             categories: categories,
             order: sort
         )
+    }
+
+    func fetch() {
+        if(!isMax) {
+            page = page + 1
+            lectureBankHandler.search(
+                    department: department,
+                    keyword: self.query,
+                    page: page,
+                    categories: categories,
+                    order: sort
+            )
+        }
     }
     
 }

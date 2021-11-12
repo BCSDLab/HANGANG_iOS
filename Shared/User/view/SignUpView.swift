@@ -185,7 +185,8 @@ struct SignUpView: View {
                             .foregroundColor(Color.white)
                             .padding(.vertical, 10)
                         Spacer()
-                    }
+                    }.background(Color("PrimaryBlue"))
+                    .cornerRadius(24.0)
                 }.isDetailLink(false)
                 .simultaneousGesture(TapGesture().onEnded{
                     self.viewModel.checkSignUp()
@@ -194,8 +195,7 @@ struct SignUpView: View {
                     !(self.viewModel.checkPassword && self.viewModel.checkValidPassword && (self.viewModel.nicknameCheckResult.message ?? "") == "사용 가능한 닉네임입니다.")
                 )
                 .buttonStyle(PlainButtonStyle())
-                .background(Color("PrimaryBlue"))
-                .cornerRadius(24.0)
+                
                 .padding(.top, 28)
             }.padding(.vertical, 32)
             .padding(.horizontal,16)

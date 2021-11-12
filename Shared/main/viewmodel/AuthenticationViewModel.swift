@@ -14,11 +14,13 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
 
     @Published var token: Token? = nil {
         didSet(oldVal) {
-            print("SetAccess = \(token?.access_token)")
-            print("SetRefresh = \(token?.refresh_token)")
+            print("SetAccess = \(token?.access_token ?? "")")
+            print("SetRefresh = \(token?.refresh_token ?? "")")
             if (result != "OK" && token != nil) {
                 tokenTest(token: token)
-            } else {
+            } else if((token?.access_token ?? "") == "logout") {
+
+            } else if(oldVal != nil){
                 token = oldVal
             }
         }
@@ -26,11 +28,11 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
 
     @Published var result: String = "" {
         didSet {
-            print(result)
             if(result == "UNAUTHORIZED") {
                 refreshToken(token: token)
             } else if(result == "OK" && (token?.access_token ?? "") != "") {
                 authenticationHandler.getMy(token: token)
+                saveToken()
             }
         }
     }
@@ -97,10 +99,13 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         print("refreshToken: \(refreshToken)")
 
-        if(accessToken != nil) {
+        let isAuthLoggedIn = UserDefaults.standard.bool(forKey: "is_auth_logged_in")
+        print("isAuthLoggedIn: \(isAuthLoggedIn)")
+
+        if(isAuthLoggedIn && accessToken != nil) {
             self.token = Token(
-                    refresh_token: refreshToken!,
-                    access_token: accessToken!
+                    refresh_token: refreshToken ?? "",
+                    access_token: accessToken ?? ""
             )
             //tokenTest(token: self.token)
         }
@@ -122,7 +127,10 @@ class AuthenticationViewModel: ObservableObject, Identifiable {
     
     func logout() {
         self.result = ""
-        self.token = nil
+        self.token = Token(
+                refresh_token: "",
+                access_token: "logout"
+        )
         deleteToken()
     }
     

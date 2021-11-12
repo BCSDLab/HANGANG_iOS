@@ -9,12 +9,10 @@ import SwiftUI
 
 struct MyPointView: View {
     @ObservedObject var viewModel: MyPointViewModel
-    @State var point: Int
+    var point: Int
     
-    init(token: Token?, point: Int) {
-        self.viewModel = MyPointViewModel(
-        token: token
-        )
+    init(point: Int) {
+        self.viewModel = MyPointViewModel()
         self.point = point
     }
     
@@ -100,18 +98,18 @@ struct MyPointView: View {
                 List(self.viewModel.pointList ?? [], id: \.self) { point in
                     HStack{
                         VStack(alignment: .leading){
-                            Text("\(point.title)")
+                            Text("\(point.title ?? "")")
                                 .font(.system(size: 14))
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .padding(EdgeInsets(top: 8, leading: 16, bottom: 2, trailing: 0))
                             
-                            Text("\(point.createdAt.stringToDate.getmdhm)")
+                            Text("\((point.createdAt ?? "").stringToDate.getmdhm ?? "")")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("DisableColor"))
                                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 0))
                         }
                         Spacer()
-                        Text("\(point.variance > 0 ? "+" : "-") \(point.variance)P")
+                        Text("\((point.variance ?? 0) >= 0 ? "+" : "-") \((point.variance ?? 0) >= 0 ? (point.variance ?? 0) : -(point.variance ?? 0))P")
                             .font(.system(size: 16))
                             .fontWeight(.medium)
                             .foregroundColor(Color("DisableColor"))

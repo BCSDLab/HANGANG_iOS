@@ -38,6 +38,110 @@ func sha256(str: String) -> String {
     return ""
 }
 
+class FileDownloader {
+
+    static func loadFileSync(url: URL, completion: @escaping (String?, Error?) -> Void)
+    {
+        let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        let destinationUrl = documentsUrl.appendingPathComponent(url.lastPathComponent)
+
+        if FileManager().fileExists(atPath: destinationUrl.path)
+        {
+            print("File already exists [\(destinationUrl.path)]")
+            completion(destinationUrl.path, nil)
+        }
+        else if let dataFromURL = NSData(contentsOf: url)
+        {
+            if dataFromURL.write(to: destinationUrl, atomically: true)
+            {
+                print("file saved [\(destinationUrl.path)]")
+                completion(destinationUrl.path, nil)
+            }
+            else
+            {
+                print("error saving file")
+                let error = NSError(domain:"Error saving file", code:1001, userInfo:nil)
+                completion(destinationUrl.path, error)
+            }
+        }
+        else
+        {
+            let error = NSError(domain:"Error downloading file", code:1002, userInfo:nil)
+            completion(destinationUrl.path, error)
+        }
+    }
+
+    func flattenedArray(array:[Any]) -> [Any] {
+        var myArray = [Any]()
+        for element in array {
+            if let element = element as? Any {
+                myArray.append(element)
+            }
+            if let element = element as? [Any] {
+                let result = flattenedArray(array: element)
+                for i in result {
+                    myArray.append(i)
+                }
+
+            }
+        }
+        return myArray
+    }
+
+    static func loadFileAsync(url: URL, completion: @escaping (String?, Error?) -> Void)
+    {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        let destinationUrl = documentsUrl.appendingPathComponent(url.lastPathComponent)
+
+        if FileManager().fileExists(atPath: destinationUrl.path)
+        {
+            print("File already exists [\(destinationUrl.path)]")
+            completion(destinationUrl.path, nil)
+        }
+        else
+        {
+            let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            let task = session.dataTask(with: request, completionHandler:
+            {
+                data, response, error in
+                if error == nil
+                {
+                    if let response = response as? HTTPURLResponse
+                    {
+                        if response.statusCode == 200
+                        {
+                            if let data = data
+                            {
+                                if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
+                                {
+                                    completion(destinationUrl.path, error)
+                                }
+                                else
+                                {
+                                    completion(destinationUrl.path, error)
+                                }
+                            }
+                            else
+                            {
+                                completion(destinationUrl.path, error)
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    completion(destinationUrl.path, error)
+                }
+            })
+            task.resume()
+        }
+    }
+}
+
 extension UIColor {
     func as1ptImage() -> UIImage {
         UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
@@ -57,6 +161,25 @@ extension UIColor {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
+    }
+}
+
+extension UIView {
+    func asImage(rect: CGRect) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: rect)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}
+
+class ImageSaver: NSObject {
+    func writeToPhotoAlbum(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveError), nil)
+    }
+
+    @objc func saveError(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        print("Save finished!")
     }
 }
 
@@ -102,24 +225,97 @@ extension String {
         }
     }
     
-    var stringToDate:Date {
+    var stringToDate: Date {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        return dateFormatter.date(from: self)!
+        return dateFormatter.date(from: self) ?? Date()
     }
 
-    var stringToNewDate:Date {
+    var stringToNewDate: Date {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyyMMdd"
-        return dateFormatter.date(from: self)!
+        return dateFormatter.date(from: self) ?? Date()
     }
 }
 
-extension Int {
+/*extension Int {
     var semesterToString: String {
         return "\(2019 + (self / 2))년 \(((self - 1) % 2) + 1)학기"
+    }
+}*/
+
+public struct TextAlert {
+    public var title: String // Title of the dialog
+    public var message: String // Dialog message
+    public var placeholder: String = "" // Placeholder text for the TextField
+    public var accept: String = "OK" // The left-most button label
+    public var cancel: String? = "Cancel" // The optional cancel (right-most) button label
+    public var secondaryActionTitle: String? = nil // The optional center button label
+    public var keyboardType: UIKeyboardType = .default // Keyboard tzpe of the TextField
+    public var action: (String?) -> Void // Triggers when either of the two buttons closes the dialog
+    public var secondaryAction: (() -> Void)? = nil // Triggers when the optional center button is tapped
+}
+
+extension UIAlertController {
+    convenience init(alert: TextAlert) {
+        self.init(title: alert.title, message: alert.message, preferredStyle: .alert)
+        addTextField {
+            $0.placeholder = alert.placeholder
+            $0.keyboardType = alert.keyboardType
+        }
+        if let cancel = alert.cancel {
+            addAction(UIAlertAction(title: cancel, style: .cancel) { _ in
+                alert.action(nil)
+            })
+        }
+        if let secondaryActionTitle = alert.secondaryActionTitle {
+            addAction(UIAlertAction(title: secondaryActionTitle, style: .default, handler: { _ in
+                alert.secondaryAction?()
+            }))
+        }
+        let textField = self.textFields?.first
+        addAction(UIAlertAction(title: alert.accept, style: .default) { _ in
+            alert.action(textField?.text)
+        })
+    }
+}
+
+struct AlertWrapper<Content: View>: UIViewControllerRepresentable {
+    @Binding var isPresented: Bool
+    let alert: TextAlert
+    let content: Content
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<AlertWrapper>) -> UIHostingController<Content> {
+        UIHostingController(rootView: content)
+    }
+
+    final class Coordinator {
+        var alertController: UIAlertController?
+        init(_ controller: UIAlertController? = nil) {
+            self.alertController = controller
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator()
+    }
+
+    func updateUIViewController(_ uiViewController: UIHostingController<Content>, context: UIViewControllerRepresentableContext<AlertWrapper>) {
+        uiViewController.rootView = content
+        if isPresented && uiViewController.presentedViewController == nil {
+            var alert = self.alert
+            alert.action = {
+                self.isPresented = false
+                self.alert.action($0)
+            }
+            context.coordinator.alertController = UIAlertController(alert: alert)
+            uiViewController.present(context.coordinator.alertController!, animated: true)
+        }
+        if !isPresented && uiViewController.presentedViewController == context.coordinator.alertController {
+            uiViewController.dismiss(animated: true)
+        }
     }
 }
 
@@ -130,12 +326,14 @@ extension Date {
         
         return dateFormatter.string(from: self)
     }
+    
     var getymd: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         
         return dateFormatter.string(from: self)
     }
+    
     func timeAgoDisplay() -> String {
             let formatter = RelativeDateTimeFormatter()
             formatter.locale = Locale(identifier: "ko_KR")
@@ -166,12 +364,29 @@ func checkRegex(target: String, pattern: String) -> Bool {
 }
 
 extension View {
+    public func alert(isPresented: Binding<Bool>, _ alert: TextAlert) -> some View {
+        AlertWrapper(isPresented: isPresented, alert: alert, content: self)
+    }
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
     }
     
     func fontWithLineHeight(font: UIFont, lineHeight: CGFloat) -> some View {
         ModifiedContent(content: self, modifier: FontWithLineHeight(font: font, lineHeight: lineHeight))
+    }
+    func snapshot() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        let view = controller.view
+
+        let targetSize = controller.view.intrinsicContentSize
+        view?.bounds = CGRect(origin: .zero, size: targetSize)
+        view?.backgroundColor = .clear
+
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+
+        return renderer.image { _ in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
     }
 }
 

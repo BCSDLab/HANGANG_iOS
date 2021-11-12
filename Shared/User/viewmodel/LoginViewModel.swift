@@ -33,7 +33,6 @@ class LoginViewModel: ObservableObject, Identifiable {
         loginHandler.$loginResponse
             .receive(on: RunLoop.main)
             .map { $0 }
-                .print()
             .eraseToAnyPublisher()
         }
 

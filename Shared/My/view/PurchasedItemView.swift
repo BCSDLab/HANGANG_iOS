@@ -9,14 +9,24 @@
 import SwiftUI
 
 struct PurchasedItemView: View {
-    init(token: Token?) {
-
+    @ObservedObject var viewModel: PurchasedItemViewModel
+    
+    init() {
+        self.viewModel = PurchasedItemViewModel()
     }
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            ScrollView {
+                ForEach(self.viewModel.purchaseList, id: \.self) { (p: Purchase) in
+                    VStack {
+                        HStack {
+                            Text("\(p.lecture.name)")
+                        }
+                    }.onTapGesture {
 
+                    }
+                }
             }
         }
     }

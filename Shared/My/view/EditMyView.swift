@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EditMyView: View {
     @ObservedObject var viewModel: EditMyViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     var majorList: [String] = [
         "기계공학부",

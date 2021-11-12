@@ -15,9 +15,10 @@ struct LectureBank: Codable, Hashable {
     let pointPrice: Int
     let semesterDate: String
     let uploadFiles: [UploadFile]?
-    let hits: Int
+    var hits: Int
     let createdAt, updatedAt: String
-    let isDeleted, isHit: Bool
+    var isHit: Bool
+    let isDeleted: Bool
     let userScrapID: Int
     let isPurchase: Bool
     let thumbnail: String

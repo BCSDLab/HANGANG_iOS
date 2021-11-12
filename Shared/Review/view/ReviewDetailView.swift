@@ -16,6 +16,7 @@ struct ReviewDetailView: View {
     ))
     let grade: [String] = ["", "하", "중", "상"]
     let gradePortion: [String] = ["", "아쉽게주심", "적당히주심", "후하게주심"]
+    @State var openTimetable: Bool = false
 
     
     init(lecture: Lecture) {
@@ -32,25 +33,25 @@ struct ReviewDetailView: View {
             VStack{
                 VStack(alignment: .leading, spacing: 0){
                     HStack(spacing: 0){
-                        Text("\(viewModel.lecture.name)")
+                        Text("\(viewModel.lecture?.name ?? "")")
                                 .font(.system(size: 18))
                                 .fontWeight(.medium)
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .frame(height: 27)
-                        Text(" \(viewModel.lecture.code ?? "")")
+                        Text(" \(viewModel.lecture?.code ?? "")")
                                 .font(.system(size: 12))
                                 .fontWeight(.medium)
                                 .foregroundColor(Color("DisableColor"))
                                 .frame(height: 27)
                             Spacer()
-                        Text("\(viewModel.lecture.classification ?? "")")
+                        Text("\(viewModel.lecture?.classification ?? "")")
                                 .font(.system(size: 12))
                                 .fontWeight(.regular)
                                 .foregroundColor(Color("PrimaryBlue"))
                                 .frame(height: 27)
                         }.padding(.bottom, 8)
-                    
-                    Text("\(viewModel.lecture.professor)")
+
+                    Text("\(viewModel.lecture?.professor ?? "")")
                         .font(.system(size: 14))
                         .fontWeight(.regular)
                         .foregroundColor(Color("PrimaryBlack"))
@@ -63,8 +64,8 @@ struct ReviewDetailView: View {
                             .frame(height: 21)
                         .padding(.bottom, 4)
                     HStack(alignment:.bottom,spacing: 0){
-                        if((viewModel.lecture.semesterData ?? []).count > 0) {
-                            ForEach(viewModel.lecture.semesterData ?? [], id: \.self) { semester in
+                        if((viewModel.lecture?.semesterData ?? []).count > 0) {
+                            ForEach(viewModel.lecture?.semesterData ?? [], id: \.self) { semester in
                                 Text("\(semester) ")
                                     .font(.system(size: 14))
                                     .fontWeight(.regular)
@@ -73,7 +74,87 @@ struct ReviewDetailView: View {
                             }
                         }
                             Spacer()
+                         Button(action: {
+                             if(!(self.viewModel.subLecture?.isScraped ?? false)) {
+                                viewModel.scrapLecture()
+                             }
+                         }) {
+                             Image((self.viewModel.subLecture?.isScraped ?? false) ? "Scrap.fill" : "Scrap")
+                                     .resizable()
+                                     .scaledToFit()
+                                     .frame(width:24)
+                         }
                         }
+                }.padding(.horizontal, 16)
+                Divider()
+                VStack(alignment: .leading, spacing: 8){
+                    Text("시간표 정보")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                            .foregroundColor(Color("PrimaryBlack"))
+                            .frame(height: 24)
+                            .padding(.bottom, 8)
+
+                    HStack(spacing: 0){
+                        Text("학점")
+                                .font(.system(size: 14))
+                                .fontWeight(.regular)
+                                .foregroundColor(Color("DisableColor"))
+                                .frame(width: 34, alignment: .leading)
+                        Text("\(self.viewModel.subLecture?.grade ?? 0)학점")
+                                .font(.system(size: 14))
+                                .fontWeight(.regular)
+                                .foregroundColor(Color("PrimaryBlack"))
+                        Spacer()
+                    }
+                    HStack(spacing: 0){
+                        Text("시간")
+                                .font(.system(size: 14))
+                                .fontWeight(.regular)
+                                .foregroundColor(Color("DisableColor"))
+                                .frame(width: 34, alignment: .leading)
+                        Text("분반과 시간을 확인하세요.")
+                                .font(.system(size: 14))
+                                .fontWeight(.regular)
+                                .foregroundColor(Color("PrimaryBlack"))
+                        Spacer()
+                        Button(action: {
+                            openTimetable.toggle()
+                        }) {
+                            Image(systemName: openTimetable ? "chevron.up" : "chevron.down")
+                                .foregroundColor(Color("CheckboxBorderColor"))
+                        }
+                    }
+                    if(openTimetable) {
+                        VStack(spacing: 8){
+                            ForEach(self.viewModel.timeTableLecture, id: \.self) { tl in
+                                HStack{
+                                    Text("\(tl.classTimeString) (\(tl.classNumber))")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("PrimaryBlack"))
+                                    Spacer()
+                                    Button(action: {
+                                        if(tl.selectedTableId.isEmpty) {
+                                            //self.timeTableViewModel.deleteLecture(lecture: lecture)
+                                        } else {
+                                            //self.timeTableViewModel.addLecture(lecture: lecture)
+                                        }
+                                    }) {
+                                        Text(tl.selectedTableId.isEmpty ? "담기" : "빼기" )
+                                                .font(.system(size: 12))
+                                                .fontWeight(.medium)
+                                                .foregroundColor(Color.white)
+                                                .frame(height: 18)
+                                                .padding(EdgeInsets(top: 5, leading: 17, bottom: 5, trailing: 17))
+                                    }.background(tl.selectedTableId.isEmpty ? Color("PrimaryBlue") : Color("PrimaryOrenge") )
+                                            .cornerRadius(20)
+                                }.padding(.leading, 50 - 16)
+                            }
+                        }.animation(.easeInOut)
+                                .transition(.opacity)
+                    }
+
                 }.padding(.horizontal, 16)
                 Divider()
                 VStack(alignment: .leading, spacing: 0){
@@ -88,8 +169,8 @@ struct ReviewDetailView: View {
                     .padding(.bottom, 16)
                     ZStack(alignment: .topLeading) {
                         HStack(alignment: .top, spacing: 0) {
-                            
-                            
+
+
                             HStack (spacing: 1){
                                 let maxRating = viewModel.rating.max() ?? 0.0
                                 ForEach(viewModel.rating, id: \.self) { rating in
@@ -110,7 +191,7 @@ struct ReviewDetailView: View {
                                     .fontWeight(.regular)
                                     .foregroundColor(Color("DisableColor"))
                                     .frame(height: 16)
-                                Text("\(viewModel.lecture.reviewCount ?? 0)명")
+                                Text("\(viewModel.lecture?.reviewCount ?? 0)명")
                                     .font(.system(size: 11))
                                     .fontWeight(.regular)
                                     .foregroundColor(Color("DisableColor"))
@@ -130,7 +211,7 @@ struct ReviewDetailView: View {
                                 .fontWeight(.medium)
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .frame(height: 21)
-                                
+
                         }.frame(
                             minWidth: 0,
                             maxWidth: .infinity,
@@ -138,10 +219,10 @@ struct ReviewDetailView: View {
                           ).padding(.top, 16)
                         .padding(.leading, 16)
                     }.background(Color("BackgroundColor"))
-                    
+
                     HStack(alignment: .top, spacing: 0) {
-                        
-                        
+
+
                         HStack (spacing: 1){
                             ForEach([0.0,1.0,0.0,2.0,0.0,3.0,0.0,4.0,0.0,5.0], id: \.self) { rating in
                                 Text(String(format: "%.1f", rating))
@@ -157,7 +238,7 @@ struct ReviewDetailView: View {
                               maxWidth: .infinity,
                               alignment: .trailing
                         ).padding(.trailing, 11)
-                        
+
                         VStack(alignment: .trailing, spacing: 0){
                             Text("전체 평가 수")
                                 .font(.system(size: 11))
@@ -165,9 +246,9 @@ struct ReviewDetailView: View {
                                 .foregroundColor(.clear)
                                 .frame(height: 16)
                         }.padding(.trailing, 16)
-                        
+
                     }.padding(.bottom, 16)
-                    
+
                     HStack(spacing: 0){
                         HStack(spacing: 0){
                             Text("출첵빈도")
@@ -201,7 +282,7 @@ struct ReviewDetailView: View {
                           )
                     }.padding(.horizontal, 16)
                     .padding(.bottom, 16)
-                    
+
                     HStack(spacing: 0){
                         HStack(spacing: 0){
                             Text("과제량")
@@ -235,10 +316,10 @@ struct ReviewDetailView: View {
                           )
                     }.padding(.horizontal, 16)
                     .padding(.bottom, 24)
-                    
+
                     HStack(alignment:.bottom,spacing: 0){
-                        if((viewModel.lecture.top3HashTag ?? []).count > 0) {
-                            ForEach(viewModel.lecture.top3HashTag ?? [], id: \.self) { hash in
+                        if((viewModel.lecture?.top3HashTag ?? []).count > 0) {
+                            ForEach(viewModel.lecture?.top3HashTag ?? [], id: \.self) { hash in
                                 Text("#\(hash.tag) ")
                                     .font(.system(size: 14))
                                     .fontWeight(.regular)
@@ -248,8 +329,8 @@ struct ReviewDetailView: View {
                         }
                             Spacer()
                         }.padding(.horizontal, 16)
-                    
-                    
+
+
                     }
                 Divider()
                 VStack(alignment: .leading, spacing: 0){
@@ -267,13 +348,66 @@ struct ReviewDetailView: View {
                                 .frame(height: 18)
                         }.padding(.bottom, 8)
                     ForEach(self.viewModel.reviewResult, id: \.self) { review in
-                        ReviewItem(
-                            review: review
-                        )
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack {
+                                Text("\(review.semesterDate) 수강자")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color("PrimaryBlack"))
+                                        .frame(height: 18)
+                                Spacer()
+                            }.padding(.bottom, 4)
+                                    .padding(.top, 16)
+
+                            HStack {
+                                Text("과제정보")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color("DisableColor"))
+                                        .frame(height: 18)
+                                        .padding(.trailing, 4)
+
+                                Text("\(review.assignment.map {$0.name}.joined(separator: ","))")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color("PrimaryBlack"))
+                                        .frame(height: 18)
+
+                            }.padding(.bottom, 8)
+                            Text("\(review.comment)")
+                                    .font(.system(size: 12))
+                                    .lineLimit(nil)
+                                    .foregroundColor(Color("PrimaryBlack"))
+                                    .frame(height: 18)
+                                    .padding(.bottom, 9)
+                            HStack {
+                                Button(action: {
+                                    self.viewModel.recommendReview(review: review)
+                                }) {
+                                    HStack{
+                                        Image("ThumbUp")
+                                                .renderingMode(.template)
+                                                .foregroundColor(review.isLiked ? Color("PrimaryBlue") : Color("DisableColor"))
+                                        Text("\(review.likes)")
+                                                .font(.system(size: 12))
+                                                .foregroundColor(Color("PrimaryBlue"))
+                                                .frame(height: 18)
+                                    }
+                                }
+                                Spacer()
+                                Text("신고")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color("DisableColor"))
+                                        .frame(height: 18)
+                            }.padding(.bottom, 15)
+                            Divider()
+
+                        }
                     }
-                    
+                            .listStyle(PlainListStyle())
+
+
                 }.padding(.horizontal, 16)
-                
+
+            }.onReceive(self.viewModel.objectWillChange) {
+
             }//.padding(16)
         }/*.onAppear {
             viewModel.getTotalEvaluation()

@@ -29,11 +29,11 @@ class EditMyViewModel: ObservableObject, Identifiable {
             .eraseToAnyPublisher()
         }
     
-    init(email: String, name: String, nickname: String, majors: [String]) {
-        self.email = email
-        self.name = name
-        self.nickname = nickname
-        self.majors = majors
+    init(email: String?, name: String?, nickname: String?, majors: [String]?) {
+        self.email = email ?? ""
+        self.name = name ?? ""
+        self.nickname = nickname ?? ""
+        self.majors = majors ?? []
         
         checkNicknamePublisher
                     .receive(on: RunLoop.main)

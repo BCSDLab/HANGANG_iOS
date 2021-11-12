@@ -12,10 +12,8 @@ struct LectureBankScrapView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     @ObservedObject var viewModel: LectureBankScrapViewModel
 
-    init(token: Token?) {
-        self.viewModel = LectureBankScrapViewModel(
-                token: token
-        )
+    init() {
+        self.viewModel = LectureBankScrapViewModel()
     }
 
     var body: some View {

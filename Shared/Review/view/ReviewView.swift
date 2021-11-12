@@ -10,9 +10,12 @@ import SwiftUI
 struct ReviewView: View {
     @ObservedObject var viewModel: ReviewViewModel
     @State var showingFilterSheet: Bool = false
+    @State var searchQuery: String = ""
     
-    init() {
-        self.viewModel = ReviewViewModel()
+    init(major: String?) {
+        self.viewModel = ReviewViewModel(
+                major: major
+        )
     }
     
     var majorList: [String] = [
@@ -126,8 +129,37 @@ struct ReviewView: View {
                         }
                         
                         if(viewModel.lectureResult.count > 0) {
-                            ForEach(0..<viewModel.lectureResult.count) { index in
-                                LectureItem(lecture: viewModel.lectureResult[index])
+                            ForEach(viewModel.lectureResult, id: \.self) { lecture in
+                                LectureItem(lecture: lecture)
+                                        .onAppear {
+                                            if(self.viewModel.lectureResult.last == lecture) {
+                                                self.viewModel.fetch()
+                                            }
+                                        }
+                            }
+
+                            if(self.viewModel.isLoading) {
+                                ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle())
+                            }
+                        } else if(self.viewModel.isLoading){
+                            ProgressView(label: {
+                                Text("불러오는 중...")
+                                        .foregroundColor(.secondary)
+                            }
+                            ).progressViewStyle(CircularProgressViewStyle())
+                                    .padding(.top, 140)
+                        } else {
+                            VStack {
+                                Image("EmptyImage")
+                                        .renderingMode(.original)
+                                        .padding(.top, 140)
+
+
+                                Text("검색결과가 없습니다.")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(Color("DisableColor"))
+                                        .padding(.top, 16)
                             }
                         }
                     }
@@ -258,13 +290,17 @@ struct ReviewView: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack{
-                            TextField("교과명, 교수명, 과목코드 검색", text: self.$viewModel.query)
+                            TextField("교과명, 교수명, 과목코드 검색", text: self.$searchQuery, onCommit: {
+                                self.viewModel.search(
+                                        query: searchQuery
+                                )
+                            })
                                 .padding(12)
                                 .frame(maxWidth: 275, alignment: .leading)
                             
-                            Spacer()
+                            /*Spacer()
                             Image("SearchIcon")
-                                .padding(.trailing, 10)
+                                .padding(.trailing, 10)*/
                         }
                         .frame(width: geometry.size.width - 32, alignment: .leading)
                         .background(Color("BorderColor"))
@@ -279,11 +315,5 @@ struct ReviewView: View {
             }
         }
         
-    }
-}
-
-struct ReviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReviewView()
     }
 }

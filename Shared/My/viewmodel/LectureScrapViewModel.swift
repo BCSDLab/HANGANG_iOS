@@ -7,8 +7,7 @@ import Combine
 
 class LectureScrapViewModel: ObservableObject, Identifiable {
 
-    @Published var token: Token? = nil
-    @Published var scrapLectureList: [Lecture]? = nil
+    @Published var scrapLectureList: [Lecture]? = []
 
     var myHandler: MyHandler = MyHandler()
 
@@ -17,21 +16,18 @@ class LectureScrapViewModel: ObservableObject, Identifiable {
     private var scrapLecturePublisher: AnyPublisher<[Lecture]?, Never> {
         return myHandler.$scrapLectureList
                 .receive(on: RunLoop.main)
-                .print()
                 .map { $0 }
-                .print()
                 .eraseToAnyPublisher()
     }
 
 
-    init(token: Token?) {
-        self.token = token
+    init() {
         scrapLecturePublisher
                 .receive(on: RunLoop.main)
                 .assign(to: \.scrapLectureList, on: self)
                 .store(in: &disposables)
 
-        myHandler.getScrapLectureList(token: token)
+        myHandler.getScrapLectureList()
     }
 
 

@@ -49,20 +49,20 @@ struct LoginView: View {
                                 Spacer()
                                 Text("로그인")
                                     .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color.white).padding(.vertical, 10)
+                                    .foregroundColor(Color.white)
+                                    .padding(.vertical, 10)
                                 Spacer()
-                            }
-                                .background(Color("PrimaryBlue"))
-                                .cornerRadius(24.0)
+                            }.background(Color("PrimaryBlue"))
+                            .cornerRadius(24.0)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        
-                        .padding(.top, 28)
                         .onReceive(self.viewModel.tokenChange) { token in
                             if(!token.access_token.isEmpty) {
                                 authenticationViewModel.token = token
                             }
                         }
+                        .padding(.top, 28)
+                        
                     }.padding([.leading, .trailing], CGFloat(16))
                     
                     HStack{

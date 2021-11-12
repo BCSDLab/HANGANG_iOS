@@ -9,29 +9,57 @@ import UIKit
 import SwiftUI
 
 class UploadFileHandler: APIHandler {
-    @Published var uploadFileResponse: String? = nil
+    @Published var uploadFileResponse: [String] = []
     @Published var uploadImageResponse: String? = nil
     
-    func uploadFile(fileUrl: URL)  {
+    func uploadLectureBankFiles(fileUrls: [URL])  {
+        let url = "https://api.hangang.in/lecture-banks/files"
+
+        AF.upload(
+                multipartFormData: { (multipartFormData) in
+                    fileUrls.forEach { fileUrl in
+                        do {
+                            let attr = try FileManager.default.attributesOfItem(atPath: fileUrl.path)
+                            let fileName = attr[FileAttributeKey.size]
+                            let type = attr[FileAttributeKey.type]
+                            multipartFormData.append(fileUrl, withName: "files", fileName: "\(fileName)", mimeType: "\(type)")
+                        } catch (let error) {
+                            print(error)
+                        }
+                    }
+                    //return multipartFormData
+                },
+                to: url
+        ).responseDecodable { [weak self] (response: DataResponse<[String], AFError>) in
+            guard let weakSelf = self else { return }
+            guard let response = weakSelf.handleResponse(response) as? [String] else {
+                return
+            }
+            weakSelf.uploadFileResponse = response
+        }
+    }
+
+    func uploadLectureBankImages(images: [UIImage])  {
+
         do {
-            let attr = try FileManager.default.attributesOfItem(atPath: fileUrl.path)
-            let fileName = attr[FileAttributeKey.size]
-            let type = attr[FileAttributeKey.type]
 
             let url = "https://api.hangang.in/lecture-banks/files"
 
             AF.upload(
-                multipartFormData: { (multipartFormData) in
-                    multipartFormData.append(fileUrl, withName: "files", fileName: "\(fileName)", mimeType: "\(type)")
-                    //return multipartFormData
-                },
+                    multipartFormData: { (multipartFormData) in
+                        images.forEach { image in
+                            let imgData = image.jpegData(compressionQuality: 0.5)
+                            multipartFormData.append(imgData!, withName: "files")
+                        }
+                        //return multipartFormData
+                    },
                     to: url
             ).responseDecodable { [weak self] (response: DataResponse<[String], AFError>) in
                 guard let weakSelf = self else { return }
                 guard let response = weakSelf.handleResponse(response) as? [String] else {
                     return
                 }
-                weakSelf.uploadFileResponse = response.first
+                weakSelf.uploadFileResponse = response
             }
         } catch (let error) {
             print(error)

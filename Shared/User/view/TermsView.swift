@@ -36,42 +36,46 @@ struct TermsView: View {
                     }
                 }
             }
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 0) {
                 
                 Text("약관 동의")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(Color("PrimaryBlack"))
-                HStack{
+                    .padding(.bottom, 8)
+                HStack(spacing: 0){
                     Button(action: {
                         self.viewModel.all.toggle()
                     }) {
                         Image(systemName: self.viewModel.all ? "circlebadge.fill" :"circlebadge")
                             .foregroundColor(self.viewModel.all ? Color("PrimaryBlue") : Color("CheckboxBorderColor"))
                             .frame(width: 16, height: 16)
+                            .padding([.top, .bottom, .trailing], 8)
                     }
                     Text("아래 약관에 모두 동의합니다")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(Color("PrimaryBlack"))
                 }
-                HStack{
+                HStack(spacing: 0){
                     Button(action: {
                         self.viewModel.privacy.toggle()
                     }) {
                         Image(systemName: self.viewModel.privacy ? "circlebadge.fill" :"circlebadge")
                             .foregroundColor(self.viewModel.privacy ? Color("PrimaryBlue") : Color("CheckboxBorderColor"))
                             .frame(width: 16, height: 16)
+                            .padding([.top, .bottom, .trailing], 8)
                     }
                     Text("개인정보 이용약관(필수)")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(Color("PrimaryBlack"))
                 }
-                HStack{
+                HStack(spacing: 0){
                     Button(action: {
                         self.viewModel.hangang.toggle()
                     }) {
                         Image(systemName: self.viewModel.hangang ? "circlebadge.fill" :"circlebadge")
                             .foregroundColor(self.viewModel.hangang ? Color("PrimaryBlue") : Color("CheckboxBorderColor"))
                             .frame(width: 16, height: 16)
+                            .padding([.top, .bottom, .trailing], 8)
                     }
                     Text("한강 이용약관(필수)")
                         .font(.system(size: 12, weight: .medium))
@@ -101,12 +105,13 @@ struct TermsView: View {
                             .padding(.vertical, 10)
                         Spacer()
                     }.frame(maxWidth:.infinity)
+                    .background((self.viewModel.privacy && self.viewModel.hangang) ? Color("PrimaryBlue") : Color("DisabledBlue"))
+                    .cornerRadius(24.0)
                 }
                 .isDetailLink(false)
                 .disabled(!(self.viewModel.privacy && self.viewModel.hangang))
                 .buttonStyle(PlainButtonStyle())
-                .background((self.viewModel.privacy && self.viewModel.hangang) ? Color("PrimaryBlue") : Color("DisabledBlue"))
-                .cornerRadius(24.0)
+                
                 .padding(.top, 28)
             }
             .padding(.vertical, 32)

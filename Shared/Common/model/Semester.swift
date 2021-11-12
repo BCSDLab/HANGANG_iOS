@@ -4,11 +4,16 @@
 
 import Foundation
 
-struct Semester: Identifiable, Hashable {
+struct Semester: Identifiable, Hashable, Codable {
     let id: Int
-    let semester: String
-    let startTime: Date
-    let isRegular: Bool
+    let semester, startTime: String
+    let isRegular: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id, semester
+        case startTime = "start_time"
+        case isRegular = "is_regular"
+    }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

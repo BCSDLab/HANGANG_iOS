@@ -12,18 +12,13 @@ class SettingsViewModel: ObservableObject, Identifiable {
     @Published var isAuthLoggedIn: Bool = false {
         didSet{
             if(isAuthLoggedIn) {
-                UserDefaults.standard.set((self.token?.access_token ?? ""), forKey: "access_token")
-                UserDefaults.standard.set((self.token?.refresh_token ?? ""), forKey: "refresh_token")
+                UserDefaults.standard.set(true, forKey:"is_auth_logged_in")
             } else {
-                UserDefaults.standard.removeObject(forKey: "access_token")
-                UserDefaults.standard.removeObject(forKey: "refresh_token")
+                UserDefaults.standard.set(false, forKey:"is_auth_logged_in")
             }
         }
     }
-    
-    
-    var token: Token? = nil
-    @Published var user: User? = nil
+
     
     //var myHandler: MyHandler = MyHandler()
     
@@ -38,20 +33,15 @@ class SettingsViewModel: ObservableObject, Identifiable {
             .eraseToAnyPublisher()
         }*/
     
-    init(token: Token?) {
-        self.token = token
+    init() {
 
-        if(UserDefaults.standard.string(forKey: "access_token") != nil) {
+        if(UserDefaults.standard.bool(forKey: "is_auth_logged_in")) {
             isAuthLoggedIn = true
         }
         /*myPublisher
                     .receive(on: RunLoop.main)
                     .assign(to: \.user, on: self)
                     .store(in: &disposables)*/
-    }
-
-    func getMy(user: User?) {
-        self.user = user
     }
     
     

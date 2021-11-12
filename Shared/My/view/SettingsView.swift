@@ -10,15 +10,10 @@ import SwiftUI
 struct SettingsView: View {
     @State var isLoggedOutPopup = false
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
-    @EnvironmentObject var myViewModel: MyViewModel
     @ObservedObject var viewModel: SettingsViewModel
-    
-    
-    
-    init(token: Token?) {
-        self.viewModel = SettingsViewModel(
-        token: token
-        )
+
+    init() {
+        self.viewModel = SettingsViewModel()
     }
     
     var body: some View {
@@ -82,7 +77,16 @@ struct SettingsView: View {
                         .fontWeight(.medium)
                         .foregroundColor(Color("PrimaryBlack"))
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 0))
-                    NavigationLink(destination: EmptyView()) {
+                    Button(action: {
+                        let email = "bcsdlab@gmail.com"
+                        if let url = URL(string: "mailto:\(email)") {
+                            if #available(iOS 10.0, *) {
+                                UIApplication.shared.open(url)
+                            } else {
+                                UIApplication.shared.openURL(url)
+                            }
+                        }
+                    }) {
                         HStack{
                             Text("문의하기")
                                 .font(.system(size: 14))
@@ -95,7 +99,6 @@ struct SettingsView: View {
                         .padding(.vertical, 8)
                     }
                     Button(action: {
-                        
                         self.isLoggedOutPopup = true
                     }) {
                         HStack{
@@ -119,7 +122,7 @@ struct SettingsView: View {
                             }
                               )
                             }
-                    Button(action: {
+                    /*Button(action: {
                         
                     }) {
                         HStack{
@@ -132,7 +135,7 @@ struct SettingsView: View {
                                 .foregroundColor(Color("PrimaryBlack"))
                         }.padding(.horizontal, 16)
                         .padding(.vertical, 8)
-                    }
+                    }*/
                 }
                     
                 
@@ -143,17 +146,6 @@ struct SettingsView: View {
                 nc.navigationBar.barTintColor = .white
                 nc.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "PrimaryBlack")]
             })
-        }.onAppear() {
-            self.viewModel.getMy(
-                    user: self.authenticationViewModel.user
-            )
         }
     }
 }
-
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(token: nil)
-    }
-}
-//192.168.219.104

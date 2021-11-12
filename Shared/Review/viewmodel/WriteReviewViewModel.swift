@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 class WriteReviewViewModel: ObservableObject, Identifiable {
-    @Published var semester: Int? = nil
-    @Published var semesters: [Int] = []
+    @Published var semester: Semester? = nil
+    @Published var semesters: [Semester?] = []
     
     @Published var attendanceFrequency: Int = 3
     @Published var assignments: [Int] = []
@@ -36,16 +36,15 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
      Optional("정상적으로 작성되었습니다.")
      */
     
-    let lecture: Lecture
+    let lecture: Lecture?
     
     var lectureHandler: LectureHandler = LectureHandler()
     
     private var disposables: Set<AnyCancellable> = []
     
-    private var semestersPublisher: AnyPublisher<[Int], Never> {
+    private var semestersPublisher: AnyPublisher<[Semester?], Never> {
         lectureHandler.$lectureSemesters
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
             .eraseToAnyPublisher()
         }
@@ -53,7 +52,6 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
     private var addReviewPublisher: AnyPublisher<HangangResponse?, Never> {
         lectureHandler.$addReviewResponse
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
             .eraseToAnyPublisher()
         }
@@ -89,7 +87,7 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
             .eraseToAnyPublisher()
         }*/
     
-    init(lecture: Lecture) {
+    init(lecture: Lecture?) {
         self.lecture = lecture
         semestersPublisher
                     .receive(on: RunLoop.main)
@@ -110,7 +108,7 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
                     .store(in: &disposables)
         
         */
-        getSemesters(lecture: lecture)
+        getSemesters(lecture: lecture!)
     }
     
     func getSemesters(lecture: Lecture) {
@@ -128,9 +126,9 @@ class WriteReviewViewModel: ObservableObject, Identifiable {
             difficulty: difficulty,
             grade_portion: gradePortion,
             hash_tags: hashTags,
-            lecture_id: lecture.id!,
+            lecture_id: lecture?.id ?? -1,
             rating: rating,
-            semester_id: semester!
+            semester_id: semester!.id
         )
     }
     

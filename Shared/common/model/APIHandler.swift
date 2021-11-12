@@ -21,11 +21,13 @@ class APIHandler {
             print(response.request?.url ?? "")
             return response.value
         case .failure:
+            print("======== ERROR Start ========")
             print(response.error)
             print(response.request?.url ?? "")
             print(response.request?.headers)
             let json = JSON(response.data)
             print(json)
+            print("======== ERROR End ========")
             return nil
         }
     }

@@ -58,6 +58,7 @@ struct EmailCheckView: View {
                 HStack {
                     VStack{
                         TextField("학교 이메일로 인증번호가 전송됩니다.", text: self.$viewModel.secret)
+                            .keyboardType(.numberPad)
                             .font(.system(size: 14, weight: .medium))
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         Divider()
@@ -95,15 +96,14 @@ struct EmailCheckView: View {
                             .foregroundColor(Color.white)
                             .padding(.vertical, 10)
                         Spacer()
-                    }
+                    }.background(Color("PrimaryBlue"))
+                    .cornerRadius(24.0)
                 }.isDetailLink(false)
                 .simultaneousGesture(TapGesture().onEnded{
                     self.viewModel.checkEmail()
                         })
                 .disabled(self.viewModel.secret.isEmpty)
                 .buttonStyle(PlainButtonStyle())
-                .background(Color("PrimaryBlue"))
-                .cornerRadius(24.0)
                 .padding(.top, 28)
                 
             }

@@ -10,6 +10,8 @@ import Foundation
 // MARK: - Lecture
 struct Lecture: Codable, Hashable {
     let id: Int?
+    var isScraped: Bool?
+    let grade: Int?
     let semesterData: [String]?
     let top3HashTag: [HashTag]?
     let department,code: String?
@@ -21,11 +23,31 @@ struct Lecture: Codable, Hashable {
     let isDeleted: Bool?
     let createdAt, updatedAt: String?
 
+    init(id: Int?, isScraped: Bool?,grade: Int?, semesterData: [String]?, top3HashTag: [HashTag]?, department: String?, code: String?, name: String, professor: String, classification: String?, totalRating: Double?, lastReviewedAt: String?, reviewCount: Int?, isDeleted: Bool?, createdAt: String?, updatedAt: String?) {
+        self.id = id
+        self.isScraped = isScraped
+        self.grade = grade
+        self.semesterData = semesterData
+        self.top3HashTag = top3HashTag
+        self.department = department
+        self.code = code
+        self.name = name
+        self.professor = professor
+        self.classification = classification
+        self.totalRating = totalRating
+        self.lastReviewedAt = lastReviewedAt
+        self.reviewCount = reviewCount
+        self.isDeleted = isDeleted
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+
     enum CodingKeys: String, CodingKey {
         case id
+        case isScraped = "is_scraped"
         case semesterData = "semester_data"
         case top3HashTag = "top3_hash_tag"
-        case code, name, department, professor, classification
+        case code, grade, name, department, professor, classification
         case totalRating = "total_rating"
         case lastReviewedAt = "last_reviewed_at"
         case reviewCount = "review_count"

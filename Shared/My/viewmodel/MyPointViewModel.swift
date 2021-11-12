@@ -9,9 +9,8 @@ import Foundation
 import Combine
 
 class MyPointViewModel: ObservableObject, Identifiable {
-    
-    @Published var token: Token? = nil
-    @Published var pointList: [Point]? = nil
+
+    @Published var pointList: [Point]? = []
     
     var myHandler: MyHandler = MyHandler()
     
@@ -20,21 +19,18 @@ class MyPointViewModel: ObservableObject, Identifiable {
     private var pointPublisher: AnyPublisher<[Point]?, Never> {
         return myHandler.$pointList
                 .receive(on: RunLoop.main)
-            .print()
                 .map { $0 }
-            .print()
             .eraseToAnyPublisher()
         }
     
     
-    init(token: Token?) {
-        self.token = token
+    init() {
         pointPublisher
                     .receive(on: RunLoop.main)
                     .assign(to: \.pointList, on: self)
                     .store(in: &disposables)
         
-        myHandler.getPointList(token: token)
+        myHandler.getPointList()
     }
     
     

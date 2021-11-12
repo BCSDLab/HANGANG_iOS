@@ -39,7 +39,7 @@ struct BottomSheetView<Content: View>: View {
             VStack(spacing: 0) {
                 self.content
             }
-            .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
+            .frame(height: self.maxHeight, alignment: .top)
             .background(Color(.secondarySystemBackground))
             .cornerRadius(Constants.radius)
             .frame(height: geometry.size.height, alignment: .bottom)

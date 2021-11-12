@@ -7,7 +7,8 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    
+    @EnvironmentObject var tabViewModel: TabViewModel
+
     init() {
         self.viewModel = HomeViewModel()
     }
@@ -64,28 +65,12 @@ struct HomeView: View {
                             }
                             if(viewModel.lectureResult.count > 0) {
                                 ForEach(0..<9) { index in
+
                                     if(index % 2 == 0) {
-                                        HStack{
-                                            Text("\((index / 2) + 1)")
-                                                    .fontWeight(.medium)
-                                                    .font(.system(size: 18))
-                                                    .foregroundColor(Color("PrimaryBlack"))
-                                                    .padding(.trailing, 16)
-                                            VStack(alignment: .leading){
-                                                Text(viewModel.lectureResult[(index / 2)].name)
-                                                        .fontWeight(.medium)
-                                                        .font(.system(size: 14))
-                                                        .foregroundColor(Color("PrimaryBlack"))
-                                                Text(viewModel.lectureResult[(index / 2)].professor)
-                                                        .font(.system(size: 12))
-                                                        .foregroundColor(Color("DisableColor"))
-                                            }
-                                            Spacer()
-                                            Text("\(String(format: "%.1f",  viewModel.lectureResult[(index / 2)].totalRating ?? 0.0))")
-                                                    .fontWeight(.medium)
-                                                    .font(.system(size: 18))
-                                                    .foregroundColor(Color("PrimaryBlack"))
-                                        }.padding(16)
+                                        RankingLectureItem(
+                                                rank: (index / 2) + 1,
+                                                lecture: viewModel.lectureResult[(index / 2)]
+                                        )
                                     } else {
                                         Rectangle()
                                                 .frame(height: 1)
@@ -113,29 +98,102 @@ struct HomeView: View {
                         ScrollView(.horizontal){
                             HStack(spacing: 8){
                                 ForEach(0..<majorThumbnailList.count) { index in
-                                    VStack {
-                                        Text("\(majorList[index])")
-                                            .fontWeight(.medium)
-                                            .font(.system(size: 12))
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, 14)
-                                            .padding(.bottom, 8)
-                                    }.frame(width: 87, height: 87, alignment: .bottom)
-                                            .background(
-                                                Image("\(majorThumbnailList[index])")
-                                                    .resizable()
-                                            )
-                                            .cornerRadius(8)
+                                    Button(action: {
+                                        self.tabViewModel.major = majorList[index]
+                                        self.tabViewModel.menuTapped("ClipboardCheck")
+                                    }) {
+                                        VStack {
+                                            Text("\(majorList[index])")
+                                                    .fontWeight(.medium)
+                                                    .font(.system(size: 12))
+                                                    .foregroundColor(.white)
+                                                    .padding(.horizontal, 14)
+                                                    .padding(.bottom, 8)
+                                        }.frame(width: 87, height: 87, alignment: .bottom)
+                                                .background(
+                                                        Image("\(majorThumbnailList[index])")
+                                                                .resizable()
+                                                )
+                                                .cornerRadius(8)
+                                    }
                                 }
                             }.padding(.horizontal, 16)
                         }
 
-                        /*Text("내 시간표")
+                        Text("내 시간표")
                                 .fontWeight(.medium)
                                 .font(.system(size: 16))
                                 .foregroundColor(Color("PrimaryBlack"))
                                 .padding(EdgeInsets(top: 16, leading: 16, bottom: 10, trailing: 16))
-                                .frame(width: geometry.size.width, alignment: .leading)*/
+                                .frame(width: geometry.size.width, alignment: .leading)
+
+                        VStack(spacing: 0){
+                            if(viewModel.timeTableLectureResult.count > 0) {
+                                ForEach(0..<viewModel.timeTableLectureResult.count * 2 - 1) { index in
+
+                                    if(index % 2 == 0) {
+                                        TimetableLectureItem(
+                                                lecture: viewModel.timeTableLectureResult[(index / 2)]
+                                        )
+                                    } else {
+                                        Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(Color("BorderColor"))
+                                    }
+
+
+                                }
+                            }
+                        }
+                                .frame(width: geometry.size.width - 32)
+                                .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                                .stroke(Color("BorderColor"), lineWidth: 1)
+                                )
+                                .padding(.horizontal, 16)
+
+                        /*if(!((self.viewModel.hitLectureBank ?? []).isEmpty)) {
+                            VStack{
+                                Text("추천 강의자료")
+                                        .fontWeight(.medium)
+                                        .font(.system(size: 16))
+                                        .foregroundColor(Color("PrimaryBlack"))
+                                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 10, trailing: 16))
+                                        .frame(width: geometry.size.width, alignment: .leading)
+
+                                ScrollView(.horizontal){
+                                    HStack(spacing: 8){
+                                        ForEach(self.viewModel.hitLectureBank, id: \.self) { lectureBank in
+                                            NavigationLink(destination: LectureBankDetailView(
+                                                    lectureBankId: lectureBank.id
+                                            )) {
+                                                VStack{
+                                                    VStack {
+                                                        Image("\((lectureBank.uploadFiles ?? []).first?.ext ?? "txt")")
+                                                                .resizable()
+                                                                .frame(width: 33, height: 33)
+                                                                .padding(8)
+                                                    }.frame(width: 90, height: 90, alignment: .center)
+                                                            .background(Color(red: 252/256, green: 252/256, blue: 252/256))
+                                                            .cornerRadius(8)
+
+                                                    Text("\(lectureBank.title ?? "")")
+                                                            .fontWeight(.regular)
+                                                            .font(.system(size: 12))
+                                                            .foregroundColor(Color("PrimaryBlack"))
+                                                            .frame(width: 90, height: 18, alignment: .leading)
+
+                                                }
+                                            }
+                                                    .padding(.leading,(self.viewModel.hitLectureBank ?? []).first == lectureBank ? 16 : 0)
+                                                    .padding(.trailing,(self.viewModel.hitLectureBank ?? []).last == lectureBank ? 16 : 0)
+                                        }
+                                    }
+                                }.padding(.bottom, 16)
+                            }
+                        } else {
+                            EmptyView()
+                        }*/
                     }
                 }.frame(width: geometry.size.width, alignment: .leading)
                         .navigationBarTitleDisplayMode(.inline)
@@ -148,11 +206,7 @@ struct HomeView: View {
                                             .foregroundColor(Color("PrimaryBlue"))
                                 }
                             }
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: SearchView()) {
-                                    Image("SearchIcon")
-                                }
-                            }
+
                         }
                         .background(UINavigationConfiguration { nc in
                             nc.navigationBar.barTintColor = .white

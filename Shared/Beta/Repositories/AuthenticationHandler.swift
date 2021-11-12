@@ -46,24 +46,29 @@ class AuthenticationHandler: APIHandler {
     func refreshToken(token: Token?) {
         isLoading = true
 
-        let url = "https://api.hangang.in/user/refresh"
+        if(!(token?.refresh_token ?? "").isEmpty) {
+            let url = "https://api.hangang.in/user/refresh"
 
 
-        AF.request(url,
-                method: .post,
-                headers: [
-                    HTTPHeader(name: "RefreshToken", value: "Bearer " + (token?.refresh_token ?? ""))
-                ]
-        ).responseDecodable { [weak self] (response: DataResponse<Token, AFError>) in
-            guard let weakSelf = self else { return }
+            AF.request(url,
+                    method: .post,
+                    headers: [
+                        HTTPHeader(name: "RefreshToken", value: "Bearer " + (token?.refresh_token ?? ""))
+                    ]
+            ).responseDecodable { [weak self] (response: DataResponse<Token, AFError>) in
+                guard let weakSelf = self else { return }
 
-            guard let response = weakSelf.handleResponse(response) as? Token else {
+                guard let response = weakSelf.handleResponse(response) as? Token else {
+                    weakSelf.isLoading = false
+                    return
+                }
+
                 weakSelf.isLoading = false
-                return
+                weakSelf.refreshTokenResponse = response
             }
-
-            weakSelf.isLoading = false
-            weakSelf.refreshTokenResponse = response
+        } else {
+            self.isLoading = false
+            self.refreshTokenResponse = nil
         }
     }
 

@@ -9,8 +9,24 @@
 /* Begin PBXBuildFile section */
 		2D3B870F84E88CC3687BD62D /* Pods_hangang__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37E98090650571AD4E6280F /* Pods_hangang__iOS_.framework */; };
 		57A8F1BA0E5A822B29485CEB /* Pods_hangang__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B41535E8F9BDD8509BD99337 /* Pods_hangang__macOS_.framework */; };
-		6C5024AC31B10B8ECE173704 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5029AA2AEF8A38BA42DB20 /* Token.swift */; };
+		6C50203CF4AC4263E21D2E6D /* FileBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502D6375DCCA9CE67EC789 /* FileBank.swift */; };
+		6C50212D57271EA4BC349411 /* SearchLectureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502C2D9F8473282BC63B70 /* SearchLectureView.swift */; };
+		6C50213B2ACB7CB6DA068353 /* RankingLectureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502BEB4BEB430D288048DC /* RankingLectureItem.swift */; };
+		6C5021AC2CCB2CE947F8EAB0 /* LectureBankItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502BB70C2DF25BC6278D27 /* LectureBankItem.swift */; };
+		6C5021B43DAD9BDF10A54D15 /* LectureScrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50248AF59D61C414CFCBEB /* LectureScrapView.swift */; };
+		6C5021FE59B457737498E8F9 /* TimeTableLectureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502F582476CEFCBE6A1552 /* TimeTableLectureView.swift */; };
+		6C50255F6ADD34799FA7A7DD /* LectureScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5020EFB9476D4837FCCC10 /* LectureScrapViewModel.swift */; };
+		6C502635502F63B3BA27160B /* hangang_privacy_guideline in Resources */ = {isa = PBXBuildFile; fileRef = 6C502B4D1D68EE39E82A41A9 /* hangang_privacy_guideline */; };
+		6C502667A1949F2128D3788C /* SelectTimeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5022735844CB9241F140F0 /* SelectTimeTableView.swift */; };
+		6C5027A89BA468697F2C38F7 /* LectureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502EA79B6A5DD03A3165AD /* LectureItem.swift */; };
+		6C5028BC58AB35D633D8E3D7 /* LectureBankDetailHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50266FFA8FDD05D1968D63 /* LectureBankDetailHandler.swift */; };
+		6C5029C222D050B6C442FEB2 /* PurchasedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50222BA55ACA793760C249 /* PurchasedItemView.swift */; };
 		6C502A311E54D03BD9A9C324 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502B94B4E88BBB54BDA41F /* HomeView.swift */; };
+		6C502BE7D97A63601EDD2B67 /* PurchasedItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5020966019BE120583CA4D /* PurchasedItemViewModel.swift */; };
+		6C502CD65796B6F4F4DF5A71 /* Semester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50216317761D43434511C6 /* Semester.swift */; };
+		6C502E3AC0C8AC3FA1D4964D /* TimetableLectureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5023AE28CF9D4B8AD84C4D /* TimetableLectureItem.swift */; };
+		6C502E59852165EC67C90FDC /* LectureBankScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50248618600FC7A138C1B9 /* LectureBankScrapViewModel.swift */; };
+		6C502EBC5A7C2186E43CA42C /* LectureBankScrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5022528AE6859EF8D3C407 /* LectureBankScrapView.swift */; };
 		6C502EDD4E9E451F31C558BD /* HangangErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C502C2B4DB165176DB021B5 /* HangangErrorResponse.swift */; };
 		A00D465226635F54007CEF36 /* LectureResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00D465126635F54007CEF36 /* LectureResponse.swift */; };
 		A017663825D1567A00D13944 /* MyPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A017663725D1567A00D13944 /* MyPointView.swift */; };
@@ -35,15 +51,17 @@
 		A026375725E25D7E007F0219 /* FindPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026375625E25D7E007F0219 /* FindPasswordView.swift */; };
 		A026375D25E25D90007F0219 /* FindPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026375C25E25D90007F0219 /* FindPasswordViewModel.swift */; };
 		A026376325E25DAB007F0219 /* FindPasswordHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026376225E25DAB007F0219 /* FindPasswordHandler.swift */; };
+		A029828F26B80F7A00E40096 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = A029828E26B80F7A00E40096 /* PartialSheet */; };
 		A03545F3267D9FC600206848 /* WriteReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03545F2267D9FC600206848 /* WriteReviewView.swift */; };
 		A03545F5267D9FD900206848 /* WriteReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03545F4267D9FD900206848 /* WriteReviewViewModel.swift */; };
+		A03B60C52693418C0089B933 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A03B60C42693418C0089B933 /* GoogleService-Info.plist */; };
+		A03B60C62693418C0089B933 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A03B60C42693418C0089B933 /* GoogleService-Info.plist */; };
 		A0563681259F1E9B00A75389 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0563680259F1E9B00A75389 /* AuthenticationViewModel.swift */; };
 		A056368B259F1EAF00A75389 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A056368A259F1EAF00A75389 /* HomeViewModel.swift */; };
 		A056369C259F2A4D00A75389 /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A056369B259F2A4D00A75389 /* APIHandler.swift */; };
 		A05636AD259F2D1700A75389 /* AuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05636AC259F2D1700A75389 /* AuthenticationHandler.swift */; };
 		A057CDE72691FD4600990F8B /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = A057CDE62691FD4600990F8B /* Order.swift */; };
 		A060CF4F2663D3F0006EF6A7 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060CF4E2663D3F0006EF6A7 /* ReviewViewModel.swift */; };
-		A060CF512663D46C006EF6A7 /* ReviewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060CF502663D46C006EF6A7 /* ReviewHandler.swift */; };
 		A062880C2595D8890004AD9D /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A062880B2595D8890004AD9D /* Tests_iOS.swift */; };
 		A06288172595D8890004AD9D /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06288162595D8890004AD9D /* Tests_macOS.swift */; };
 		A06288192595D8890004AD9D /* hangangApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06287F02595D8880004AD9D /* hangangApp.swift */; };
@@ -57,11 +75,11 @@
 		A081F95925A3480E0082EC79 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081F95825A3480E0082EC79 /* SearchView.swift */; };
 		A081F95F25A353860082EC79 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081F95E25A353860082EC79 /* SearchViewModel.swift */; };
 		A08EE0A825FE46EA0054C921 /* LectureBankDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08EE0A725FE46EA0054C921 /* LectureBankDetailView.swift */; };
-		A08EE0AE25FE470C0054C921 /* LectureBankDetailHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08EE0AD25FE470C0054C921 /* LectureBankDetailHandler.swift */; };
 		A08EE0B425FE47200054C921 /* LectureBankDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08EE0B325FE47200054C921 /* LectureBankDetailViewModel.swift */; };
 		A08EE0BE25FE4D000054C921 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08EE0BD25FE4D000054C921 /* SettingsViewModel.swift */; };
 		A0A3609026509F4B000C337D /* MyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A3608F26509F4B000C337D /* MyHandler.swift */; };
 		A0A360922650A28D000C337D /* MyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A360912650A28D000C337D /* MyViewModel.swift */; };
+		A0A4EE51269DE10E00737EB9 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A4EE50269DE10E00737EB9 /* Token.swift */; };
 		A0A7389026109777002FF220 /* TimeTableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A7388F26109777002FF220 /* TimeTableHandler.swift */; };
 		A0A738972610993E002FF220 /* LectureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A738962610993E002FF220 /* LectureHandler.swift */; };
 		A0A738AA2610B2A2002FF220 /* LectureListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A738A92610B2A2002FF220 /* LectureListItem.swift */; };
@@ -69,6 +87,8 @@
 		A0ACA3F126511873002F86AB /* EditMyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ACA3F026511873002F86AB /* EditMyView.swift */; };
 		A0ACA3F326511B19002F86AB /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ACA3F226511B19002F86AB /* Review.swift */; };
 		A0ACA3F526511DAE002F86AB /* LectureCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ACA3F426511DAE002F86AB /* LectureCount.swift */; };
+		A0B521D2270AA4330049623C /* SearchLectureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B521D1270AA4330049623C /* SearchLectureViewModel.swift */; };
+		A0B521D4270AAEEE0049623C /* SearchLectureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B521D3270AAEEE0049623C /* SearchLectureItem.swift */; };
 		A0B6A56326650A6D001EB9C9 /* ReviewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6A56226650A6D001EB9C9 /* ReviewDetailView.swift */; };
 		A0B890FB2636EEC600A9A352 /* MainTimeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B890FA2636EEC600A9A352 /* MainTimeTable.swift */; };
 		A0C1068025B4586A00FA662A /* EmailCheckHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1067F25B4586A00FA662A /* EmailCheckHandler.swift */; };
@@ -130,9 +150,25 @@
 
 /* Begin PBXFileReference section */
 		603280D062A0A1A714C3A427 /* Pods-hangang (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hangang (macOS).debug.xcconfig"; path = "Target Support Files/Pods-hangang (macOS)/Pods-hangang (macOS).debug.xcconfig"; sourceTree = "<group>"; };
-		6C5029AA2AEF8A38BA42DB20 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		6C5020966019BE120583CA4D /* PurchasedItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasedItemViewModel.swift; sourceTree = "<group>"; };
+		6C5020EFB9476D4837FCCC10 /* LectureScrapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureScrapViewModel.swift; sourceTree = "<group>"; };
+		6C50216317761D43434511C6 /* Semester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Semester.swift; sourceTree = "<group>"; };
+		6C50222BA55ACA793760C249 /* PurchasedItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasedItemView.swift; sourceTree = "<group>"; };
+		6C5022528AE6859EF8D3C407 /* LectureBankScrapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureBankScrapView.swift; sourceTree = "<group>"; };
+		6C5022735844CB9241F140F0 /* SelectTimeTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectTimeTableView.swift; sourceTree = "<group>"; };
+		6C5023AE28CF9D4B8AD84C4D /* TimetableLectureItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableLectureItem.swift; sourceTree = "<group>"; };
+		6C50248618600FC7A138C1B9 /* LectureBankScrapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureBankScrapViewModel.swift; sourceTree = "<group>"; };
+		6C50248AF59D61C414CFCBEB /* LectureScrapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureScrapView.swift; sourceTree = "<group>"; };
+		6C50266FFA8FDD05D1968D63 /* LectureBankDetailHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureBankDetailHandler.swift; sourceTree = "<group>"; };
+		6C502B4D1D68EE39E82A41A9 /* hangang_privacy_guideline */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hangang_privacy_guideline; sourceTree = "<group>"; };
 		6C502B94B4E88BBB54BDA41F /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		6C502BB70C2DF25BC6278D27 /* LectureBankItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureBankItem.swift; sourceTree = "<group>"; };
+		6C502BEB4BEB430D288048DC /* RankingLectureItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingLectureItem.swift; sourceTree = "<group>"; };
 		6C502C2B4DB165176DB021B5 /* HangangErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HangangErrorResponse.swift; sourceTree = "<group>"; };
+		6C502C2D9F8473282BC63B70 /* SearchLectureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLectureView.swift; sourceTree = "<group>"; };
+		6C502D6375DCCA9CE67EC789 /* FileBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileBank.swift; sourceTree = "<group>"; };
+		6C502EA79B6A5DD03A3165AD /* LectureItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureItem.swift; sourceTree = "<group>"; };
+		6C502F582476CEFCBE6A1552 /* TimeTableLectureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeTableLectureView.swift; sourceTree = "<group>"; };
 		9C708C297F79B1602EAFA5FD /* Pods-hangang (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hangang (iOS).release.xcconfig"; path = "Target Support Files/Pods-hangang (iOS)/Pods-hangang (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		A00D465126635F54007CEF36 /* LectureResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureResponse.swift; sourceTree = "<group>"; };
 		A017663725D1567A00D13944 /* MyPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPointView.swift; sourceTree = "<group>"; };
@@ -142,6 +178,7 @@
 		A018150C25E3B12400163513 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		A018151225E3B13200163513 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		A018151825E3B14100163513 /* ChangePasswordHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordHandler.swift; sourceTree = "<group>"; };
+		A01D894226A85AEE003BB672 /* hangang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hangang.entitlements; sourceTree = "<group>"; };
 		A01E10F126104E4A004FDE5E /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		A01E110926106703004FDE5E /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
 		A01ECD2225CFDCEB006C28BD /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
@@ -159,13 +196,13 @@
 		A026376225E25DAB007F0219 /* FindPasswordHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordHandler.swift; sourceTree = "<group>"; };
 		A03545F2267D9FC600206848 /* WriteReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewView.swift; sourceTree = "<group>"; };
 		A03545F4267D9FD900206848 /* WriteReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewViewModel.swift; sourceTree = "<group>"; };
+		A03B60C42693418C0089B933 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A0563680259F1E9B00A75389 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		A056368A259F1EAF00A75389 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A056369B259F2A4D00A75389 /* APIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
 		A05636AC259F2D1700A75389 /* AuthenticationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHandler.swift; sourceTree = "<group>"; };
 		A057CDE62691FD4600990F8B /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		A060CF4E2663D3F0006EF6A7 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
-		A060CF502663D46C006EF6A7 /* ReviewHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHandler.swift; sourceTree = "<group>"; };
 		A06287F02595D8880004AD9D /* hangangApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hangangApp.swift; sourceTree = "<group>"; };
 		A06287F22595D8890004AD9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A06287F72595D8890004AD9D /* hangang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hangang.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,11 +222,11 @@
 		A081F95825A3480E0082EC79 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		A081F95E25A353860082EC79 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		A08EE0A725FE46EA0054C921 /* LectureBankDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureBankDetailView.swift; sourceTree = "<group>"; };
-		A08EE0AD25FE470C0054C921 /* LectureBankDetailHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureBankDetailHandler.swift; sourceTree = "<group>"; };
 		A08EE0B325FE47200054C921 /* LectureBankDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureBankDetailViewModel.swift; sourceTree = "<group>"; };
 		A08EE0BD25FE4D000054C921 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		A0A3608F26509F4B000C337D /* MyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHandler.swift; sourceTree = "<group>"; };
 		A0A360912650A28D000C337D /* MyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewModel.swift; sourceTree = "<group>"; };
+		A0A4EE50269DE10E00737EB9 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		A0A7388F26109777002FF220 /* TimeTableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableHandler.swift; sourceTree = "<group>"; };
 		A0A738962610993E002FF220 /* LectureHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureHandler.swift; sourceTree = "<group>"; };
 		A0A738A92610B2A2002FF220 /* LectureListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureListItem.swift; sourceTree = "<group>"; };
@@ -197,6 +234,8 @@
 		A0ACA3F026511873002F86AB /* EditMyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyView.swift; sourceTree = "<group>"; };
 		A0ACA3F226511B19002F86AB /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		A0ACA3F426511DAE002F86AB /* LectureCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureCount.swift; sourceTree = "<group>"; };
+		A0B521D1270AA4330049623C /* SearchLectureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLectureViewModel.swift; sourceTree = "<group>"; };
+		A0B521D3270AAEEE0049623C /* SearchLectureItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLectureItem.swift; sourceTree = "<group>"; };
 		A0B6A56226650A6D001EB9C9 /* ReviewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailView.swift; sourceTree = "<group>"; };
 		A0B890FA2636EEC600A9A352 /* MainTimeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTimeTable.swift; sourceTree = "<group>"; };
 		A0C1067F25B4586A00FA662A /* EmailCheckHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCheckHandler.swift; sourceTree = "<group>"; };
@@ -248,6 +287,7 @@
 			files = (
 				A0693F8F2680B6030027993B /* StarRating in Frameworks */,
 				2D3B870F84E88CC3687BD62D /* Pods_hangang__iOS_.framework in Frameworks */,
+				A029828F26B80F7A00E40096 /* PartialSheet in Frameworks */,
 				A0C16CBB2675C65800E485CE /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,8 +362,8 @@
 		A0563692259F1FF400A75389 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				A0A4EE50269DE10E00737EB9 /* Token.swift */,
 				A0CC7C8D25C674BF00BCE694 /* User.swift */,
-				6C5029AA2AEF8A38BA42DB20 /* Token.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -361,6 +401,7 @@
 				A0D08BA3267CD0A100A88AF3 /* CommonResponse.swift */,
 				A0DDC4B12685F4CD00DFDDEB /* CommentResponse.swift */,
 				A057CDE62691FD4600990F8B /* Order.swift */,
+				6C50216317761D43434511C6 /* Semester.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -368,6 +409,7 @@
 		A06287EA2595D8880004AD9D = {
 			isa = PBXGroup;
 			children = (
+				A01D894226A85AEE003BB672 /* hangang.entitlements */,
 				A0D400CF2595EA4E00E0EC64 /* fonts */,
 				A06287EF2595D8880004AD9D /* Shared */,
 				A06287F92595D8890004AD9D /* iOS */,
@@ -383,6 +425,7 @@
 		A06287EF2595D8880004AD9D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A03B60C42693418C0089B933 /* GoogleService-Info.plist */,
 				A0D5242F2673A59500A4142C /* Beta */,
 				A0CC7CD925C70A4A00BCE694 /* My */,
 				A0CC7CD825C70A3800BCE694 /* Review */,
@@ -394,6 +437,7 @@
 				A0D400F2259606EF00E0EC64 /* Home */,
 				A0D400DB2595EBB400E0EC64 /* Common */,
 				A06287F22595D8890004AD9D /* Assets.xcassets */,
+				6C502B4D1D68EE39E82A41A9 /* hangang_privacy_guideline */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -597,6 +641,8 @@
 			children = (
 				A0CC7CA225C7048400BCE694 /* TimeTableView.swift */,
 				A0A738A92610B2A2002FF220 /* LectureListItem.swift */,
+				6C5022735844CB9241F140F0 /* SelectTimeTableView.swift */,
+				6C502F582476CEFCBE6A1552 /* TimeTableLectureView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -640,6 +686,7 @@
 				A026372E25E25887007F0219 /* LectureBankViewModel.swift */,
 				A08EE0B325FE47200054C921 /* LectureBankDetailViewModel.swift */,
 				A0D9D9222689F92500D5EBE3 /* UploadLectureBankViewModel.swift */,
+				A0B521D1270AA4330049623C /* SearchLectureViewModel.swift */,
 			);
 			path = viewmodel;
 			sourceTree = "<group>";
@@ -651,6 +698,9 @@
 				A08EE0A725FE46EA0054C921 /* LectureBankDetailView.swift */,
 				A0DDC4B32686024200DFDDEB /* CommentItem.swift */,
 				A0D9D9202689F91400D5EBE3 /* UploadLectureBankView.swift */,
+				6C502C2D9F8473282BC63B70 /* SearchLectureView.swift */,
+				6C502BB70C2DF25BC6278D27 /* LectureBankItem.swift */,
+				A0B521D3270AAEEE0049623C /* SearchLectureItem.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -668,6 +718,7 @@
 				A026373A25E25A65007F0219 /* LectureBank.swift */,
 				A026374625E25AA1007F0219 /* UserNickname.swift */,
 				A0DDC4AF2685F2DB00DFDDEB /* Comment.swift */,
+				6C502D6375DCCA9CE67EC789 /* FileBank.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -707,6 +758,7 @@
 				A0B6A56226650A6D001EB9C9 /* ReviewDetailView.swift */,
 				A0D08BA1267CCCD700A88AF3 /* ReviewItem.swift */,
 				A03545F2267D9FC600206848 /* WriteReviewView.swift */,
+				6C502EA79B6A5DD03A3165AD /* LectureItem.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -725,6 +777,9 @@
 				A0A360912650A28D000C337D /* MyViewModel.swift */,
 				A0261645265A1EC600750A1C /* MyPointViewModel.swift */,
 				A0261647265A994700750A1C /* EditMyViewModel.swift */,
+				6C5020966019BE120583CA4D /* PurchasedItemViewModel.swift */,
+				6C50248618600FC7A138C1B9 /* LectureBankScrapViewModel.swift */,
+				6C5020EFB9476D4837FCCC10 /* LectureScrapViewModel.swift */,
 			);
 			path = viewmodel;
 			sourceTree = "<group>";
@@ -736,6 +791,9 @@
 				A017663725D1567A00D13944 /* MyPointView.swift */,
 				A017663D25D1569500D13944 /* SettingsView.swift */,
 				A0ACA3F026511873002F86AB /* EditMyView.swift */,
+				6C5022528AE6859EF8D3C407 /* LectureBankScrapView.swift */,
+				6C50222BA55ACA793760C249 /* PurchasedItemView.swift */,
+				6C50248AF59D61C414CFCBEB /* LectureScrapView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -790,6 +848,7 @@
 				A0C4F2D3259731E900D025BB /* viewmodel */,
 				A0C4F2D2259731DF00D025BB /* repository */,
 				A0D400F3259606FE00E0EC64 /* view */,
+				6C50266FFA8FDD05D1968D63 /* LectureBankDetailHandler.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -799,6 +858,8 @@
 			children = (
 				6C502B94B4E88BBB54BDA41F /* HomeView.swift */,
 				A0CC7C9825C7046200BCE694 /* ContentView.swift */,
+				6C502BEB4BEB430D288048DC /* RankingLectureItem.swift */,
+				6C5023AE28CF9D4B8AD84C4D /* TimetableLectureItem.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -843,9 +904,7 @@
 				A026376225E25DAB007F0219 /* FindPasswordHandler.swift */,
 				A05636AC259F2D1700A75389 /* AuthenticationHandler.swift */,
 				A0A7388F26109777002FF220 /* TimeTableHandler.swift */,
-				A08EE0AD25FE470C0054C921 /* LectureBankDetailHandler.swift */,
 				A026373425E2589A007F0219 /* LectureBankHandler.swift */,
-				A060CF502663D46C006EF6A7 /* ReviewHandler.swift */,
 				A0A3608F26509F4B000C337D /* MyHandler.swift */,
 				A06E2A0E269091E100DA6237 /* UploadFileHandler.swift */,
 			);
@@ -934,6 +993,7 @@
 			packageProductDependencies = (
 				A0C16CBA2675C65800E485CE /* SwiftUICharts */,
 				A0693F8E2680B6030027993B /* StarRating */,
+				A029828E26B80F7A00E40096 /* PartialSheet */,
 			);
 			productName = "hangang (iOS)";
 			productReference = A06287F72595D8890004AD9D /* hangang.app */;
@@ -1030,6 +1090,7 @@
 			packageReferences = (
 				A0C16CB92675C65800E485CE /* XCRemoteSwiftPackageReference "ChartView" */,
 				A0693F8D2680B6030027993B /* XCRemoteSwiftPackageReference "StarRating" */,
+				A029828D26B80F7A00E40096 /* XCRemoteSwiftPackageReference "PartialSheet" */,
 			);
 			productRefGroup = A06287F82595D8890004AD9D /* Products */;
 			projectDirPath = "";
@@ -1050,6 +1111,8 @@
 			files = (
 				A0D400D12595EA5D00E0EC64 /* NanumSquareRoundOTFEB.otf in Resources */,
 				A062881D2595D8890004AD9D /* Assets.xcassets in Resources */,
+				A03B60C52693418C0089B933 /* GoogleService-Info.plist in Resources */,
+				6C502635502F63B3BA27160B /* hangang_privacy_guideline in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1122,7 @@
 			files = (
 				A0D400D62595EA5D00E0EC64 /* NanumSquareRoundOTFEB.otf in Resources */,
 				A062881E2595D8890004AD9D /* Assets.xcassets in Resources */,
+				A03B60C62693418C0089B933 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1162,6 +1226,7 @@
 				A01E110A26106703004FDE5E /* TimeTableViewModel.swift in Sources */,
 				A03545F3267D9FC600206848 /* WriteReviewView.swift in Sources */,
 				A00D465226635F54007CEF36 /* LectureResponse.swift in Sources */,
+				A0A4EE51269DE10E00737EB9 /* Token.swift in Sources */,
 				A081F95925A3480E0082EC79 /* SearchView.swift in Sources */,
 				A0E6B0EA25F482F2006DCD09 /* AsyncImage.swift in Sources */,
 				A017663E25D1569500D13944 /* SettingsView.swift in Sources */,
@@ -1182,20 +1247,20 @@
 				A0C14D6B25AB0562007DA2B1 /* LoginView.swift in Sources */,
 				A0C14D7D25AB216C007DA2B1 /* TermsView.swift in Sources */,
 				A0D9D9212689F91400D5EBE3 /* UploadLectureBankView.swift in Sources */,
+				A0B521D4270AAEEE0049623C /* SearchLectureItem.swift in Sources */,
 				A0261642265A1DA900750A1C /* Point.swift in Sources */,
 				A0C1068025B4586A00FA662A /* EmailCheckHandler.swift in Sources */,
 				A081F95F25A353860082EC79 /* SearchViewModel.swift in Sources */,
 				A0ACA3F326511B19002F86AB /* Review.swift in Sources */,
 				A018150D25E3B12400163513 /* ChangePasswordView.swift in Sources */,
 				A0C3DCE525B414660089B241 /* MajorView.swift in Sources */,
-				A08EE0AE25FE470C0054C921 /* LectureBankDetailHandler.swift in Sources */,
 				A0C14D7125AB083D007DA2B1 /* LoginViewModel.swift in Sources */,
+				A0B521D2270AA4330049623C /* SearchLectureViewModel.swift in Sources */,
 				A0CC7CAE25C7060500BCE694 /* TabViewModel.swift in Sources */,
 				A026375D25E25D90007F0219 /* FindPasswordViewModel.swift in Sources */,
 				A026376325E25DAB007F0219 /* FindPasswordHandler.swift in Sources */,
 				A0DDC4B02685F2DB00DFDDEB /* Comment.swift in Sources */,
 				A0A7389026109777002FF220 /* TimeTableHandler.swift in Sources */,
-				A060CF512663D46C006EF6A7 /* ReviewHandler.swift in Sources */,
 				A0B6A56326650A6D001EB9C9 /* ReviewDetailView.swift in Sources */,
 				A0C14D7725AB0853007DA2B1 /* LoginHandler.swift in Sources */,
 				A0C3DCFD25B4249C0089B241 /* MajorViewModel.swift in Sources */,
@@ -1231,13 +1296,28 @@
 				A026373525E2589A007F0219 /* LectureBankHandler.swift in Sources */,
 				A01E10F226104E4A004FDE5E /* BottomSheetView.swift in Sources */,
 				A0CC7C9925C7046200BCE694 /* ContentView.swift in Sources */,
-				6C5024AC31B10B8ECE173704 /* Token.swift in Sources */,
 				A026372925E25879007F0219 /* LectureBankView.swift in Sources */,
 				A018151925E3B14100163513 /* ChangePasswordHandler.swift in Sources */,
 				A03545F5267D9FD900206848 /* WriteReviewViewModel.swift in Sources */,
 				6C502EDD4E9E451F31C558BD /* HangangErrorResponse.swift in Sources */,
 				A0ACA3F126511873002F86AB /* EditMyView.swift in Sources */,
 				6C502A311E54D03BD9A9C324 /* HomeView.swift in Sources */,
+				6C50203CF4AC4263E21D2E6D /* FileBank.swift in Sources */,
+				6C502CD65796B6F4F4DF5A71 /* Semester.swift in Sources */,
+				6C50212D57271EA4BC349411 /* SearchLectureView.swift in Sources */,
+				6C502EBC5A7C2186E43CA42C /* LectureBankScrapView.swift in Sources */,
+				6C5029C222D050B6C442FEB2 /* PurchasedItemView.swift in Sources */,
+				6C502BE7D97A63601EDD2B67 /* PurchasedItemViewModel.swift in Sources */,
+				6C502E59852165EC67C90FDC /* LectureBankScrapViewModel.swift in Sources */,
+				6C5021B43DAD9BDF10A54D15 /* LectureScrapView.swift in Sources */,
+				6C50255F6ADD34799FA7A7DD /* LectureScrapViewModel.swift in Sources */,
+				6C5027A89BA468697F2C38F7 /* LectureItem.swift in Sources */,
+				6C5021AC2CCB2CE947F8EAB0 /* LectureBankItem.swift in Sources */,
+				6C50213B2ACB7CB6DA068353 /* RankingLectureItem.swift in Sources */,
+				6C502667A1949F2128D3788C /* SelectTimeTableView.swift in Sources */,
+				6C502E3AC0C8AC3FA1D4964D /* TimetableLectureItem.swift in Sources */,
+				6C5021FE59B457737498E8F9 /* TimeTableLectureView.swift in Sources */,
+				6C5028BC58AB35D633D8E3D7 /* LectureBankDetailHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,8 +1416,11 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
+				OTHER_SWIFT_FLAGS = "";
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1389,8 +1472,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "";
+				OTHER_SWIFT_FLAGS = "";
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1400,21 +1486,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = hangang.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = K626UYGR25;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcsdlab.hangang;
 				PRODUCT_NAME = hangang;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1424,21 +1512,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = hangang.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = K626UYGR25;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcsdlab.hangang;
 				PRODUCT_NAME = hangang;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1633,6 +1723,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A029828D26B80F7A00E40096 /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.12;
+			};
+		};
 		A0693F8D2680B6030027993B /* XCRemoteSwiftPackageReference "StarRating" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dkk/StarRating";
@@ -1652,6 +1750,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A029828E26B80F7A00E40096 /* PartialSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A029828D26B80F7A00E40096 /* XCRemoteSwiftPackageReference "PartialSheet" */;
+			productName = PartialSheet;
+		};
 		A0693F8E2680B6030027993B /* StarRating */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A0693F8D2680B6030027993B /* XCRemoteSwiftPackageReference "StarRating" */;

@@ -18,9 +18,10 @@ struct SignUpRequest: Encodable {
 
 class MajorHandler: APIHandler {
     @Published var signUpResponse: HangangResponse = HangangResponse()
+    @Published var isLoading = false
     
     func signUp(email: String, password: String, nickname: String, major: [String])  {
-        
+        self.isLoading = true
         let url = "https://api.hangang.in/user/sign-up"
         
         let data = SignUpRequest(
@@ -40,7 +41,7 @@ class MajorHandler: APIHandler {
             guard let response = weakSelf.handleResponse(response) as? HangangResponse else {
                             return
                         }
-                                        
+            weakSelf.isLoading = false
                         weakSelf.signUpResponse = response
         }
     }

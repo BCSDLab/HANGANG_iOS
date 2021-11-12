@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Purchase: Codable {
+struct Purchase: Codable, Hashable {
     let id, userID: Int
     let title: String
     let lecture: Lecture
@@ -17,5 +17,16 @@ struct Purchase: Codable {
         case id
         case userID = "user_id"
         case title, lecture, uploadFiles
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func ==(lhs: Purchase, rhs: Purchase) -> Bool {
+        if lhs.id != rhs.id {
+            return false
+        }
+        return true
     }
 }

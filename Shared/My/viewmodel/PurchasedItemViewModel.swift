@@ -7,31 +7,27 @@ import Combine
 
 class PurchasedItemViewModel: ObservableObject, Identifiable {
 
-    @Published var token: Token? = nil
-    @Published var pointList: [Point]? = nil
+    @Published var purchaseList: [Purchase] = []
 
     var myHandler: MyHandler = MyHandler()
 
     private var disposables: Set<AnyCancellable> = []
 
-    private var pointPublisher: AnyPublisher<[Point]?, Never> {
-        return myHandler.$pointList
+    private var PurchasePublisher: AnyPublisher<[Purchase], Never> {
+        return myHandler.$myPurchaseList
                 .receive(on: RunLoop.main)
-                .print()
                 .map { $0 }
-                .print()
                 .eraseToAnyPublisher()
     }
 
 
-    init(token: Token?) {
-        self.token = token
-        pointPublisher
+    init() {
+        PurchasePublisher
                 .receive(on: RunLoop.main)
-                .assign(to: \.pointList, on: self)
+                .assign(to: \.purchaseList, on: self)
                 .store(in: &disposables)
 
-        myHandler.getPointList(token: token)
+        myHandler.getPurchaseList()
     }
 
 

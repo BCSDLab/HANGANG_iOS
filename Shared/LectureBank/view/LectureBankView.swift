@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LectureBankView: View {
+    @State var searchQuery: String = ""
     @ObservedObject var viewModel: LectureBankViewModel
     var majorList: [String] = [
         "교양학부",
@@ -89,10 +90,40 @@ struct LectureBankView: View {
                                 }
                             }
                             
-                            ForEach(self.viewModel.lectureBankResult, id: \.self) { lectureBank in
+                            if(self.viewModel.lectureBankResult.count > 0) {
+                                ForEach(self.viewModel.lectureBankResult, id: \.self) { lectureBank in
 
-                                LectureBankItem(lectureBank: lectureBank)
+                                    LectureBankItem(lectureBank: lectureBank)
+                                        .onAppear {
+                                            if(self.viewModel.lectureBankResult.last == lectureBank) {
+                                                self.viewModel.fetch()
+                                            }
+                                        }
 
+                                }
+                                if(self.viewModel.isLoading) {
+                                    ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle())
+                                }
+                            } else if(self.viewModel.isLoading){
+                                ProgressView(label: {
+                                    Text("불러오는 중...")
+                                        .foregroundColor(.secondary)
+                                    }
+                                ).progressViewStyle(CircularProgressViewStyle())
+                                        .padding(.top, 140)
+                            } else {
+                                VStack {
+                                    Image("EmptyImage")
+                                        .renderingMode(.original)
+                                        .padding(.top, 140)
+
+
+                                    Text("검색결과가 없습니다.")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(Color("DisableColor"))
+                                            .padding(.top, 16)
+                                }
                             }
                         }
                     }.padding(.top, 16)
@@ -119,13 +150,17 @@ struct LectureBankView: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack{
-                            TextField("교과명, 교수명, 과목코드 검색", text: self.$viewModel.query)
+                            TextField("교과명, 교수명, 과목코드 검색", text: self.$viewModel.query, onCommit: {
+                                self.viewModel.search(
+                                        query: searchQuery
+                                )
+                            })
                                 .padding(12)
                                 .frame(maxWidth: 275, alignment: .leading)
                             
-                            Spacer()
+                            /*Spacer()
                             Image("SearchIcon")
-                                .padding(.trailing, 10)
+                                .padding(.trailing, 10)*/
                         }
                         .frame(width: geometry.size.width - 32, alignment: .leading)
                         .background(Color("BorderColor"))
@@ -204,9 +239,6 @@ struct LectureBankView: View {
                                     } else {
                                         self.viewModel.categories.append(a)
                                     }
-                                    
-                                    
-                                    
                                 }) {
                                     Text("\(a)")
                                         .font(.system(size: 14))

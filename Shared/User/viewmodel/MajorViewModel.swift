@@ -14,6 +14,7 @@ class MajorViewModel: ObservableObject, Identifiable {
     var password: String
     var nickname: String
     @Published var showDialog: Bool = false
+    @Published var isLoading: Bool = false
     
     @Published var signUpResult: HangangResponse = HangangResponse() {
         didSet{
@@ -37,6 +38,13 @@ class MajorViewModel: ObservableObject, Identifiable {
             .eraseToAnyPublisher()
         }
     
+    private var isLoadingPublisher: AnyPublisher<Bool, Never> {
+        majorHandler.$isLoading
+                .receive(on: RunLoop.main)
+                .map { $0 }
+            .eraseToAnyPublisher()
+        }
+    
     
     init(email: String, password: String, nickname: String) {
         
@@ -48,7 +56,10 @@ class MajorViewModel: ObservableObject, Identifiable {
                     .receive(on: RunLoop.main)
                     .assign(to: \.signUpResult, on: self)
                     .store(in: &disposables)
-
+        isLoadingPublisher
+                    .receive(on: RunLoop.main)
+                    .assign(to: \.isLoading, on: self)
+                    .store(in: &disposables)
         
     }
     

@@ -8,8 +8,8 @@
 import Foundation
 
 struct Point: Codable, Hashable {
-    let id, userID, variance: Int
-    let title, createdAt: String
+    let id, userID, variance: Int?
+    let title, createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
